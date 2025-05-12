@@ -5,6 +5,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react"; // optional: hamburger icons
 import Image from "next/image";
+import styles from "@/styles/Home.module.css";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -39,7 +40,9 @@ export default function Navbar() {
 
         {/* Centered Site Title */}
         <div className="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black whitespace-nowrap">
-          <Link href="/">Kind Blogs Site</Link>
+          <Link className={styles.gradientText} href="/">
+            Helpful Posts
+          </Link>
         </div>
 
         {/* Desktop Menu */}

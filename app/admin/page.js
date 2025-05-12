@@ -17,9 +17,9 @@ export default async function AdminPage() {
   const users = await db.collection("users").find().toArray();
 
   return (
-    <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-left text-slate-700">
-        Admin Dashboard
+    <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-4 ">
+      <h1 className="text-2xl font-bold mb-6 text-left text-slate-700 ml-2">
+        Admin dashboard...
       </h1>
 
       <div className="overflow-x-auto mr-3">

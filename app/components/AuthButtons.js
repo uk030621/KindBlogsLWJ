@@ -8,16 +8,22 @@ export default function AuthButtons({ isAuthenticated, userName }) {
     <div className="flex flex-col items-center">
       {isAuthenticated ? (
         <>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-slate-700 mt-8">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-slate-700 ">
             Hello {userName}!
           </h1>
-          <p className="text-lg text-gray-600 mb-6">You&apos;re signed in.</p>
-          <button
+          <p className="text-lg text-gray-600 mb-3">You&apos;re signed in.</p>
+          <p className="text-basic text-gray-600 mb-3">
+            View and submit posts...
+          </p>
+          <p className="text-sm text-gray-600">
+            Note: You can edit or delete your own posts.
+          </p>
+          {/*<button
             onClick={() => signOut({ callbackUrl: "/" })}
             className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition"
           >
             Sign Out
-          </button>
+          </button>*/}
         </>
       ) : (
         <>
