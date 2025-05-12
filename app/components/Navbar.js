@@ -11,6 +11,7 @@ export default function Navbar() {
   const { data: session } = useSession();
   const [role, setRole] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dateTime, setDateTime] = useState(null); // Delay setting time until mounted
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -28,6 +29,15 @@ export default function Navbar() {
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
+  useEffect(() => {
+    const now = new Date();
+    setDateTime(now);
+    const interval = setInterval(() => {
+      setDateTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white py-8 px-2">
       <div className="flex justify-between items-center">
@@ -43,6 +53,20 @@ export default function Navbar() {
           <Link className={styles.gradientText} href="/">
             Helpful Posts
           </Link>
+          <div className="flex gap-1 mt-2 justify-center">
+            {dateTime ? (
+              <>
+                <p className="mr-5 text-sm font-thin text-black">
+                  {dateTime.toLocaleDateString()}
+                </p>
+                <p className="text-sm font-thin text-black">
+                  {dateTime.toLocaleTimeString()} hr
+                </p>
+              </>
+            ) : (
+              <p className="text-sm text-black">Loading time...</p>
+            )}
+          </div>
         </div>
 
         {/* Desktop Menu - Now on Right */}
