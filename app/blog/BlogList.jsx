@@ -44,7 +44,7 @@ export default function BlogList({ blogs }) {
       <div className="mb-6 mr-4">
         <input
           type="text"
-          placeholder="Search by title or content..."
+          placeholder="Search by author, title or content..."
           className="w-full px-4 py-2 border rounded shadow-sm"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
