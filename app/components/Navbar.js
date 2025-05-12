@@ -29,7 +29,7 @@ export default function Navbar() {
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white  py-8 px-2">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white py-8 px-2">
       <div className="flex justify-between items-center">
         {/* Hamburger Button (Mobile only) */}
         <div className="md:hidden ml-4">
@@ -45,8 +45,10 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-4 ml-6">
+        {/* Desktop Menu - Now on Right */}
+        <div className="hidden md:flex items-center gap-4 ml-auto mr-10">
+          {" "}
+          {/* Change ml-6 to ml-auto */}
           {session?.user && (
             <Link href="/" className="text-gray-700 hover:text-blue-600">
               Home
@@ -65,7 +67,6 @@ export default function Navbar() {
               Create
             </Link>
           )}
-
           {role === "admin" && (
             <Link
               href="/admin"
