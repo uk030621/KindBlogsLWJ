@@ -9,6 +9,11 @@ export default function Providers({ children, session }) {
     <SessionProvider session={session}>
       <Navbar />
       {children}
+      <footer>
+        <p className="text-slate-600">
+          © {new Date().getFullYear()} LWJ Helpful Posts. All rights reserved.
+        </p>
+      </footer>
     </SessionProvider>
   );
 }

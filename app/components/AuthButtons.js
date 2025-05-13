@@ -5,18 +5,17 @@ import Image from "next/image";
 
 export default function AuthButtons({ isAuthenticated, userName }) {
   return (
-    <div className="flex flex-col items-center">
+    <div className="mx-auto px-4 py-4 pt-3">
       {isAuthenticated ? (
         <>
-          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold  text-slate-700 ">
+          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold text-black ">
             Hello {userName}!
           </h1>
-          <p className="text-lg text-gray-600 mb-3">You&apos;re signed in.</p>
-          <p className="text-basic text-gray-600 mb-3">
-            View and submit posts...
-          </p>
-          <p className="text-sm text-gray-600">
-            Note: You can edit or delete your own posts.
+          <p className="text-lg text-blac mb-3">You&apos;re signed in.</p>
+          <p className="text-basic text-black mb-3">View and submit posts...</p>
+          <p className="text-sm text-black">
+            <span className="underline font-bold">Note:</span> You can edit or
+            delete your own posts.
           </p>
           {/*<button
             onClick={() => signOut({ callbackUrl: "/" })}
@@ -30,7 +29,7 @@ export default function AuthButtons({ isAuthenticated, userName }) {
           {/*<h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-800 mt-4">
             Welcome to Kind Blogs
           </h1>*/}
-          <p className="text-lg text-gray-600 mb-6">
+          <p className="text-lg text-black mb-6">
             Share your stories and thoughts.
             <br />
             <span>Sign in to get started!</span>

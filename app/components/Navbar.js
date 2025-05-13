@@ -164,7 +164,7 @@ export default function Navbar() {
                 setMenuOpen(false);
                 signOut({ callbackUrl: "/" });
               }}
-              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
+              className="bg-red-500 text-white px-3 py-2 font-bold rounded hover:bg-red-600 "
             >
               Sign Out
             </button>

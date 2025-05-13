@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .bg-background {
   position: relative; /* Ensure container position */
 }
@@ -19,4 +27,19 @@
   background-repeat: no-repeat;
   opacity: 0.4; /* Apply opacity only to the background */
   z-index: -1; /* Place pseudo-element behind content */
+}
+
+footer {
+  background-color: white;
+  color: black;
+  text-align: center;
+  padding: 1.5rem 0;
+  width: 100%;
+}
+
+.background-container {
+  position: relative;
+  width: 100%;
+  flex: 1; /* Allow it to grow and fill the available space */
+  overflow: hidden; /* Keep overflow behavior for the background video */
 }
