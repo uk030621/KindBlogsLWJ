@@ -3,31 +3,53 @@ import { MongoClient } from "mongodb";
 const uri = process.env.MONGODB_URI;
 const options = {};
 
-// Ensure the environment variable is set
-if (!process.env.MONGODB_URI) {
-  throw new Error("Please add your MONGODB_URI to .env.local");
+// Throw clearly if the env is missing
+if (!uri) {
+  throw new Error(
+    "❌ MONGODB_URI environment variable not found in .env.local"
+  );
 }
 
 let client;
 let clientPromise;
 
+// Reuse client in development to prevent multiple connections on hot reload
 if (process.env.NODE_ENV === "development") {
-  // Use a global variable in development to preserve the value across module reloads
   if (!global._mongoClientPromise) {
     client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
+    global._mongoClientPromise = client
+      .connect()
+      .then((connectedClient) => {
+        console.log("✅ Connected to MongoDB (development)");
+        return connectedClient;
+      })
+      .catch((err) => {
+        console.error("❌ MongoDB connection error (development):", err);
+        throw err;
+      });
   }
   clientPromise = global._mongoClientPromise;
 } else {
-  // In production, it's fine to instantiate a new client
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
+  // Production: create new client (usually one per Lambda in Vercel)
+  clientPromise = new MongoClient(uri, options)
+    .connect()
+    .then((connectedClient) => {
+      console.log("✅ Connected to MongoDB (production)");
+      return connectedClient;
+    })
+    .catch((err) => {
+      console.error("❌ MongoDB connection error (production):", err);
+      throw err;
+    });
 }
 
-// Optional helper function if you want to use async/await in other endpoints
+/**
+ * Get a connected MongoClient instance.
+ * @returns {Promise<MongoClient>}
+ */
 export async function connectToDB() {
   return clientPromise;
 }
 
-// Export default for NextAuth adapter compatibility
+// Compatibility for adapters
 export default clientPromise;

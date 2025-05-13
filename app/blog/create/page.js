@@ -69,7 +69,7 @@ export default function CreateBlogPage() {
           disabled={loading}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          {loading ? "Posting..." : "Post Blog"}
+          {loading ? "Posting..." : "Submit Post"}
         </button>
       </form>
     </div>

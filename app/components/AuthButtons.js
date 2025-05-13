@@ -8,7 +8,7 @@ export default function AuthButtons({ isAuthenticated, userName }) {
     <div className="flex flex-col items-center">
       {isAuthenticated ? (
         <>
-          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold mb-4 text-slate-700 ">
+          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold  text-slate-700 ">
             Hello {userName}!
           </h1>
           <p className="text-lg text-gray-600 mb-3">You&apos;re signed in.</p>

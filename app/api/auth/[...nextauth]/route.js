@@ -14,30 +14,35 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // Only run this on initial sign in
       if (user) {
-        const client = await connectToDB();
-        const db = client.db();
-        const usersCollection = db.collection("users");
+        try {
+          const client = await connectToDB();
+          const db = client.db();
+          const usersCollection = db.collection("users");
 
-        let dbUser = await usersCollection.findOne({ email: token.email });
+          let dbUser = await usersCollection.findOne({ email: token.email });
 
-        if (!dbUser) {
-          // Insert a new user with default role "user"
-          await usersCollection.insertOne({
-            email: token.email,
-            role: "user",
-          });
-          dbUser = { role: "user" };
+          if (!dbUser) {
+            await usersCollection.insertOne({
+              email: token.email,
+              role: "user",
+            });
+            dbUser = { role: "user" };
+          }
+
+          token.role = dbUser.role;
+        } catch (error) {
+          console.error("JWT Callback DB error:", error);
+          // Fallback to default role if DB call fails
+          token.role = "user";
         }
-
-        token.role = dbUser.role;
       }
 
       return token;
     },
 
     async session({ session, token }) {
+      if (!session.user) session.user = {};
       if (token?.role) {
         session.user.role = token.role;
       }

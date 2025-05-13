@@ -56,10 +56,10 @@ export default function Navbar() {
           <div className="flex gap-1 mt-2 justify-center">
             {dateTime ? (
               <>
-                <p className="mr-5 text-sm font-thin text-black">
+                <p className="mr-5 text-sm  text-blue-700">
                   {dateTime.toLocaleDateString()}
                 </p>
-                <p className="text-sm font-thin text-black">
+                <p className="text-sm  text-blue-700">
                   {dateTime.toLocaleTimeString()} hr
                 </p>
               </>
@@ -80,7 +80,7 @@ export default function Navbar() {
           )}
           {session?.user && (
             <Link href="/blog" className="text-gray-700 hover:text-blue-600">
-              Blogs
+              Posts
             </Link>
           )}
           {session?.user && (
@@ -137,7 +137,7 @@ export default function Navbar() {
               onClick={() => setMenuOpen(false)}
               className="text-gray-700 hover:text-blue-600"
             >
-              Blogs
+              Posts
             </Link>
           )}
           {session?.user && (
