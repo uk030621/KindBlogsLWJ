@@ -20,11 +20,11 @@ if (process.env.NODE_ENV === "development") {
     global._mongoClientPromise = client
       .connect()
       .then((connectedClient) => {
-        console.log("✅ Connected to MongoDB (development)");
+        //console.log("✅ Connected to MongoDB (development)");
         return connectedClient;
       })
       .catch((err) => {
-        console.error("❌ MongoDB connection error (development):", err);
+        //console.error("❌ MongoDB connection error (development):", err);
         throw err;
       });
   }
@@ -34,11 +34,11 @@ if (process.env.NODE_ENV === "development") {
   clientPromise = new MongoClient(uri, options)
     .connect()
     .then((connectedClient) => {
-      console.log("✅ Connected to MongoDB (production)");
+      //console.log("✅ Connected to MongoDB (production)");
       return connectedClient;
     })
     .catch((err) => {
-      console.error("❌ MongoDB connection error (production):", err);
+      //console.error("❌ MongoDB connection error (production):", err);
       throw err;
     });
 }

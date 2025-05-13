@@ -14,38 +14,27 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
+      //console.log("🔐 JWT callback called. Token:", token);
       if (user) {
-        try {
-          const client = await connectToDB();
-          const db = client.db();
-          const usersCollection = db.collection("users");
+        //console.log("👤 New user logging in:", user.email);
+        const client = await connectToDB();
+        const db = client.db();
+        const usersCollection = db.collection("users");
 
-          let dbUser = await usersCollection.findOne({ email: token.email });
-
-          if (!dbUser) {
-            await usersCollection.insertOne({
-              email: token.email,
-              role: "user",
-            });
-            dbUser = { role: "user" };
-          }
-
-          token.role = dbUser.role;
-        } catch (error) {
-          console.error("JWT Callback DB error:", error);
-          // Fallback to default role if DB call fails
-          token.role = "user";
+        let dbUser = await usersCollection.findOne({ email: token.email });
+        if (!dbUser) {
+          //console.log("➕ New user added to DB");
+          await usersCollection.insertOne({ email: token.email, role: "user" });
+          dbUser = { role: "user" };
         }
+        token.role = dbUser.role;
       }
-
       return token;
     },
 
     async session({ session, token }) {
-      if (!session.user) session.user = {};
-      if (token?.role) {
-        session.user.role = token.role;
-      }
+      //console.log("📦 Session callback called. Token:", token);
+      if (token?.role) session.user.role = token.role;
       return session;
     },
   },
