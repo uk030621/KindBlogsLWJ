@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import LinkedText from "./components/LinkedText"; // ✅ keep this import only
 
 export default function BlogList({ blogs }) {
   const { data: session, status } = useSession();
@@ -63,9 +64,10 @@ export default function BlogList({ blogs }) {
               <h2 className="text-2xl font-semibold text-gray-800 mb-2 whitespace-pre-wrap break-words">
                 {blog.title}
               </h2>
-              <p className="text-gray-600 mb-4 whitespace-pre-wrap break-words">
-                {blog.content}
-              </p>
+              <LinkedText
+                text={blog.content}
+                className="text-grey-600 mb-4 whitespace-pre-wrap break-words"
+              />
               <p className="text-sm text-gray-500 mb-4">
                 By <span className="font-medium">{blog.userName}</span> on{" "}
                 {new Date(blog.createdAt).toLocaleString()}
