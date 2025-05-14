@@ -1,36 +1,36 @@
-import { connectToDB } from "@/app/lib/mongodb";
-import { ObjectId } from "mongodb";
+// app/api/users/[id]/role/route.js
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { connectToDB } from "@/app/lib/mongodb";
+import { ObjectId } from "mongodb";
+import { getUserRole } from "@/app/lib/getUserRole";
 
 export async function POST(req, { params }) {
   const session = await getServerSession(authOptions);
+  const userEmail = session?.user?.email;
+  const role = await getUserRole(userEmail);
 
-  // 1. Ensure user is authenticated
-  if (!session?.user?.email) {
-    return new Response("Unauthorized", { status: 401 });
+  if (role !== "admin") {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 403,
+    });
   }
 
-  // 2. Check if the user making the request is an admin
+  const body = await req.json();
+  const newRole = body.role;
+  const validRoles = ["admin", "user"];
+  if (!validRoles.includes(newRole)) {
+    return new Response(JSON.stringify({ error: "Invalid role" }), {
+      status: 400,
+    });
+  }
+
   const client = await connectToDB();
   const db = client.db();
 
-  const currentUser = await db
-    .collection("users")
-    .findOne({ email: session.user.email });
-
-  if (!currentUser || currentUser.role !== "admin") {
-    return new Response("Forbidden", { status: 403 });
-  }
-
-  // 3. Proceed with updating the user's role
-  const { id } = params;
-  const formData = await req.formData();
-  const role = formData.get("role");
-
   await db
     .collection("users")
-    .updateOne({ _id: new ObjectId(id) }, { $set: { role } });
+    .updateOne({ _id: new ObjectId(params.id) }, { $set: { role: newRole } });
 
-  return new Response("Role updated", { status: 200 });
+  return new Response(JSON.stringify({ success: true }), { status: 200 });
 }

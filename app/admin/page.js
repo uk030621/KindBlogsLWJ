@@ -1,26 +1,60 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { connectToDB } from "@/app/lib/mongodb";
-import { redirect } from "next/navigation";
-import { getUserRole } from "@/app/lib/getUserRole";
+"use client";
 
-export const dynamic = "force-dynamic";
+import { useEffect, useState } from "react";
 
-export default async function AdminPage() {
-  const session = await getServerSession(authOptions);
-  const role = await getUserRole(session?.user?.email);
+export default function AdminPage() {
+  const [users, setUsers] = useState([]);
+  const [message, setMessage] = useState("");
 
-  if (role !== "admin") redirect("/");
+  useEffect(() => {
+    const loadUsers = async () => {
+      const res = await fetch("/api/users");
+      if (res.ok) {
+        const data = await res.json();
+        setUsers(data);
+      } else {
+        setMessage("Failed to load users.");
+      }
+    };
+    loadUsers();
+  }, []);
 
-  const client = await connectToDB();
-  const db = client.db();
-  const users = await db.collection("users").find().toArray();
+  const updateRole = async (userId, newRole) => {
+    const res = await fetch(`/api/users/${userId}/role`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ role: newRole }),
+    });
+
+    const result = await res.json();
+
+    if (res.ok) {
+      setUsers((prev) =>
+        prev.map((user) =>
+          user._id === userId ? { ...user, role: newRole } : user
+        )
+      );
+      setMessage(`Role changed to ${newRole}`);
+    } else {
+      setMessage(result.error || "Error updating role.");
+    }
+
+    setTimeout(() => setMessage(""), 3000);
+  };
 
   return (
-    <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-4 ">
+    <div className="mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <h1 className="text-2xl font-bold mb-6 text-left text-slate-700 ml-2">
         Admin dashboard...
       </h1>
+
+      {message && (
+        <div className="mb-4 p-2 bg-green-100 text-green-800 rounded">
+          {message}
+        </div>
+      )}
 
       <div className="overflow-x-auto mr-3">
         <table className="min-w-full border text-sm sm:text-base">
@@ -37,23 +71,17 @@ export default async function AdminPage() {
                 <td className="p-2">{user.email}</td>
                 <td className="p-2 capitalize">{user.role}</td>
                 <td className="p-2">
-                  <form
-                    action={`/api/users/${user._id}/role`}
-                    method="POST"
-                    className="inline"
+                  <button
+                    onClick={() =>
+                      updateRole(
+                        user._id,
+                        user.role === "admin" ? "user" : "admin"
+                      )
+                    }
+                    className="px-3 py-1 text-xs sm:text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                   >
-                    <input
-                      type="hidden"
-                      name="role"
-                      value={user.role === "admin" ? "user" : "admin"}
-                    />
-                    <button
-                      type="submit"
-                      className="px-3 py-1 text-xs sm:text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-                    >
-                      Make {user.role === "admin" ? "User" : "Admin"}
-                    </button>
-                  </form>
+                    Make {user.role === "admin" ? "User" : "Admin"}
+                  </button>
                 </td>
               </tr>
             ))}
