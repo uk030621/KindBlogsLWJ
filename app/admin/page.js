@@ -1,93 +1,76 @@
-"use client";
+// app/admin/page.js
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { connectToDB } from "@/app/lib/mongodb";
+import { getUserRole } from "@/app/lib/getUserRole";
+import { redirect } from "next/navigation";
+import UserTable from "../components/UserTable";
 
-import { useEffect, useState } from "react";
+export const dynamic = "force-dynamic";
 
-export default function AdminPage() {
-  const [users, setUsers] = useState([]);
-  const [message, setMessage] = useState("");
+export default async function AdminPage() {
+  const session = await getServerSession(authOptions);
+  const role = await getUserRole(session?.user?.email);
 
-  useEffect(() => {
-    const loadUsers = async () => {
-      const res = await fetch("/api/users");
-      if (res.ok) {
-        const data = await res.json();
-        setUsers(data);
-      } else {
-        setMessage("Failed to load users.");
-      }
-    };
-    loadUsers();
-  }, []);
+  if (role !== "admin") redirect("/");
 
-  const updateRole = async (userId, newRole) => {
-    const res = await fetch(`/api/users/${userId}/role`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ role: newRole }),
-    });
+  const client = await connectToDB();
+  const db = client.db();
 
-    const result = await res.json();
-
-    if (res.ok) {
-      setUsers((prev) =>
-        prev.map((user) =>
-          user._id === userId ? { ...user, role: newRole } : user
-        )
-      );
-      setMessage(`Role changed to ${newRole}`);
-    } else {
-      setMessage(result.error || "Error updating role.");
-    }
-
-    setTimeout(() => setMessage(""), 3000);
-  };
+  const users = (await db.collection("users").find().toArray()).map((user) => ({
+    ...user,
+    _id: user._id.toString(), // 👈 Fix here
+  }));
+  const allowed = (await db.collection("allowedUsers").find().toArray()).map(
+    (entry) => ({
+      ...entry,
+      _id: entry._id.toString(), // 👈 Fix here too
+    })
+  );
 
   return (
-    <div className="mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <h1 className="text-2xl font-bold mb-6 text-left text-slate-700 ml-2">
-        Admin dashboard...
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      <h1 className="text-2xl font-bold mb-4 text-slate-700">
+        Admin Dashboard
       </h1>
-
-      {message && (
-        <div className="mb-4 p-2 bg-green-100 text-green-800 rounded">
-          {message}
-        </div>
-      )}
-
-      <div className="overflow-x-auto mr-3">
-        <table className="min-w-full border text-sm sm:text-base">
-          <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="p-2">Email</th>
-              <th className="p-2">Role</th>
-              <th className="p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user._id} className="border-t">
-                <td className="p-2">{user.email}</td>
-                <td className="p-2 capitalize">{user.role}</td>
-                <td className="p-2">
-                  <button
-                    onClick={() =>
-                      updateRole(
-                        user._id,
-                        user.role === "admin" ? "user" : "admin"
-                      )
-                    }
-                    className="px-3 py-1 text-xs sm:text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-                  >
-                    Make {user.role === "admin" ? "User" : "Admin"}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <UserTable users={users} /> {/* ✅ React UI for interactivity */}
+      <h2 className="text-xl font-semibold mb-2">Allowed Sign-In Emails</h2>
+      <ul className="list-disc ml-6 mb-4 space-y-1">
+        {allowed.map((entry) => (
+          <li key={entry._id} className="flex items-center justify-between">
+            <span>{entry.email}</span>
+            <form action="/api/allowedUsers/delete" method="POST">
+              <input type="hidden" name="email" value={entry.email} />
+              <button
+                type="submit"
+                className="ml-4 text-sm text-red-600 hover:underline"
+              >
+                Delete
+              </button>
+            </form>
+          </li>
+        ))}
+      </ul>
+      {/* Add new email */}
+      <form
+        action="/api/allowedUsers/add"
+        method="POST"
+        className="mt-4 flex gap-2"
+      >
+        <input
+          type="email"
+          name="email"
+          placeholder="Add allowed email"
+          required
+          className="border rounded px-3 py-1 w-full"
+        />
+        <button
+          type="submit"
+          className="px-4 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+        >
+          Add
+        </button>
+      </form>
     </div>
   );
 }
