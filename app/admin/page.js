@@ -30,11 +30,13 @@ export default async function AdminPage() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <h1 className="text-2xl font-bold mb-4 text-black text-center">
         Admin Dashboard
       </h1>
-      <h2 className="text-lg font-semibold mb-2">Allowed Sign-In Emails</h2>
+      <h2 className="text-lg text-slate-800 font-semibold mb-2 ">
+        Allowed Sign-In Emails
+      </h2>
       <AllowedUsersList initialAllowed={allowed} />
       {/* Add new email */}
       <form
@@ -51,7 +53,7 @@ export default async function AdminPage() {
         />
         <button
           type="submit"
-          className="px-4 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+          className="text-xs px-4 py-1 bg-green-600 text-white rounded hover:bg-green-700"
         >
           Add
         </button>

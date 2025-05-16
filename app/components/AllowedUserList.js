@@ -41,9 +41,9 @@ export default function AllowedUsersList({ initialAllowed }) {
             <span className="text-sm">{entry.email}</span>
             <button
               onClick={() => deleteEmail(entry.email)}
-              className="ml-4 mr-2 text-sm text-red-600 hover:underline"
+              className="ml-4 mr-2 text-xs text-red-600 hover:underline"
             >
-              Delete
+              Remove
             </button>
           </li>
         ))}

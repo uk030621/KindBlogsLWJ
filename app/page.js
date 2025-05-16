@@ -21,7 +21,7 @@ export default async function Home() {
   //console.log(`🚀 Total page load time: ${Date.now() - pageStart} ms`);
 
   return (
-    <main className="flex flex-col items-center justify-start  py-3 px-4 text-center">
+    <main className="flex flex-col items-center justify-start  py-3 px-4 text-center ">
       <AuthButtons
         isAuthenticated={!!session}
         userName={session?.user?.name || ""}

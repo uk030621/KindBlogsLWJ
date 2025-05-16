@@ -2,6 +2,7 @@
 
 import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AuthButtons({ isAuthenticated, userName }) {
   return (
@@ -47,6 +48,20 @@ export default function AuthButtons({ isAuthenticated, userName }) {
             />
             Sign In with Google
           </button>
+          {/* Friendly Link to Create a Google Account */}
+          <p className="mt-2 text-sm text-gray-600">
+            Don&apos;t have a Google account?{" "}
+            <Link
+              href="https://support.google.com/accounts/answer/27441?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              <br />
+              <span>Create one here</span>
+            </Link>
+            .
+          </p>
         </>
       )}
     </div>

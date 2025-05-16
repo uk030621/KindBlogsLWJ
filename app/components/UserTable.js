@@ -38,7 +38,9 @@ export default function UserTable({ users: initialUsers }) {
           {message}
         </div>
       )}
-      <h2 className="text-lg font-semibold mt-6 mb-2 ">Registered Users</h2>
+      <h2 className="text-slate-800 text-lg font-semibold mt-6 mb-2 ">
+        Registered Users
+      </h2>
       <table className="min-w-full border text-sm mb-8">
         <thead>
           <tr className="bg-gray-100">
@@ -60,7 +62,7 @@ export default function UserTable({ users: initialUsers }) {
                       user.role === "admin" ? "user" : "admin"
                     )
                   }
-                  className="px-3  py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  className="text-xs px-3  py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
                   Make {user.role === "admin" ? "User" : "Admin"}
                 </button>
