@@ -2,8 +2,7 @@
 import { connectToDB } from "@/app/lib/mongodb";
 
 export async function POST(req) {
-  const formData = await req.formData();
-  const email = formData.get("email");
+  const { email } = await req.json();
 
   const client = await connectToDB();
   const db = client.db();

@@ -5,6 +5,7 @@ import { connectToDB } from "@/app/lib/mongodb";
 import { getUserRole } from "@/app/lib/getUserRole";
 import { redirect } from "next/navigation";
 import UserTable from "../components/UserTable";
+import AllowedUsersList from "../components/AllowedUserList";
 
 export const dynamic = "force-dynamic";
 
@@ -30,27 +31,11 @@ export default async function AdminPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-4 text-slate-700">
+      <h1 className="text-2xl font-bold mb-4 text-black text-center">
         Admin Dashboard
       </h1>
-      <UserTable users={users} /> {/* ✅ React UI for interactivity */}
-      <h2 className="text-xl font-semibold mb-2">Allowed Sign-In Emails</h2>
-      <ul className="list-disc ml-6 mb-4 space-y-1">
-        {allowed.map((entry) => (
-          <li key={entry._id} className="flex items-center justify-between">
-            <span>{entry.email}</span>
-            <form action="/api/allowedUsers/delete" method="POST">
-              <input type="hidden" name="email" value={entry.email} />
-              <button
-                type="submit"
-                className="ml-4 text-sm text-red-600 hover:underline"
-              >
-                Delete
-              </button>
-            </form>
-          </li>
-        ))}
-      </ul>
+      <h2 className="text-lg font-semibold mb-2">Allowed Sign-In Emails</h2>
+      <AllowedUsersList initialAllowed={allowed} />
       {/* Add new email */}
       <form
         action="/api/allowedUsers/add"
@@ -71,6 +56,7 @@ export default async function AdminPage() {
           Add
         </button>
       </form>
+      <UserTable users={users} /> {/* ✅ React UI for interactivity */}
     </div>
   );
 }
