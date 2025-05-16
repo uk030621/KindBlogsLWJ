@@ -36,7 +36,7 @@ export default function AuthButtons({ isAuthenticated, userName }) {
           </p>
           <button
             onClick={() => signIn("google", { callbackUrl: "/" })}
-            className="text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center"
+            className="ml-4 text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center"
           >
             <Image
               src="/G.png" // Replace with the path to your Google logo
