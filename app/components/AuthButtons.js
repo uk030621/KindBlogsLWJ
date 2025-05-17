@@ -6,13 +6,20 @@ import Link from "next/link";
 
 export default function AuthButtons({ isAuthenticated, userName }) {
   return (
-    <div className="mx-auto px-4 py-4 pt-3">
+    <div className="mx-auto px-4 py-4 pt-4">
       {isAuthenticated ? (
         <>
-          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold text-black ">
+          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold text-black mt-20 ">
             Hello {userName}!
           </h1>
-          <p className="text-lg text-blac mb-3">You&apos;re signed in.</p>
+          <p className="text-lg text-black mb-3">You&apos;re signed in.</p>
+          <Image
+            src="/fire-explode.png" // Place image in /public folder or use a remote URL
+            alt="Welcome illustration"
+            width={200}
+            height={200}
+            className="mx-auto mb-6 rounded"
+          />
           <p className="text-basic text-black mb-3">View and submit posts...</p>
           <p className="text-sm text-black">
             <span className="underline font-bold">Note:</span> You can edit or
@@ -30,7 +37,7 @@ export default function AuthButtons({ isAuthenticated, userName }) {
           {/*<h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-800 mt-4">
             Welcome to Kind Blogs
           </h1>*/}
-          <p className="text-lg text-black mb-6">
+          <p className="text-lg text-black mb-6 mt-20">
             Share your stories and thoughts.
             <br />
             <span>Sign in to get started!</span>

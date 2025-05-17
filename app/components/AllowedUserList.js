@@ -37,7 +37,10 @@ export default function AllowedUsersList({ initialAllowed }) {
       {/*<h2 className="text-xl font-semibold mb-2">Allowed Sign-In Emails</h2>*/}
       <ul className="list-disc ml-2 mb-4 space-y-1">
         {allowed.map((entry) => (
-          <li key={entry._id} className="flex items-center justify-between">
+          <li
+            key={entry._id}
+            className="flex items-center justify-between border"
+          >
             <span className="text-sm">{entry.email}</span>
             <button
               onClick={() => deleteEmail(entry.email)}

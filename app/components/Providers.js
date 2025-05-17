@@ -1,4 +1,3 @@
-// components/Providers.js
 "use client";
 
 import { SessionProvider } from "next-auth/react";
@@ -7,13 +6,13 @@ import Navbar from "./Navbar";
 export default function Providers({ children, session }) {
   return (
     <SessionProvider session={session}>
-      <Navbar />
-      {children}
-      <footer className="pt-0 mx-auto">
-        <p className="text-slate-500 ">
+      <div className="min-h-screen flex flex-col bg-background">
+        <Navbar />
+        <main className="flex-grow">{children}</main>
+        <footer className="bg-yellow-100 text-black text-center py-4">
           © {new Date().getFullYear()} LWJ Helpful Posts. All rights reserved.
-        </p>
-      </footer>
+        </footer>
+      </div>
     </SessionProvider>
   );
 }
