@@ -9,7 +9,7 @@ export default function Providers({ children, session }) {
       <div className="min-h-screen flex flex-col bg-background">
         <Navbar />
         <main className="flex-grow">{children}</main>
-        <footer className="bg-yellow-100 text-black text-center py-4">
+        <footer className="bg-slate-200 text-black text-center py-4">
           © {new Date().getFullYear()} LWJ Helpful Posts. All rights reserved.
         </footer>
       </div>

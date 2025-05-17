@@ -14,11 +14,11 @@ export default function AuthButtons({ isAuthenticated, userName }) {
           </h1>
           <p className="text-lg text-black mb-3">You&apos;re signed in.</p>
           <Image
-            src="/fire-explode.png" // Place image in /public folder or use a remote URL
+            src="/post.jpg" // Place image in /public folder or use a remote URL
             alt="Welcome illustration"
             width={200}
             height={200}
-            className="mx-auto mb-6 rounded"
+            className="mx-auto mb-6 rounded-full"
           />
           <p className="text-basic text-black mb-3">View and submit posts...</p>
           <p className="text-sm text-black">

@@ -39,13 +39,20 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-yellow-100 py-8 px-2">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-slate-200 py-8 px-2">
       <div className="flex justify-between items-center">
-        {/* Hamburger Button (Mobile only) */}
-        <div className="md:hidden ml-4">
-          <button onClick={toggleMenu} aria-label="Toggle menu">
+        {/* Hamburger Button with dummy placeholder on desktop */}
+        <div className="ml-4">
+          {/* Mobile hamburger */}
+          <button
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+            className="md:hidden"
+          >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+          {/* Dummy placeholder on desktop */}
+          <div className="hidden md:block w-6 h-6" />
         </div>
 
         {/* Centered Site Title */}
@@ -56,10 +63,10 @@ export default function Navbar() {
           <div className="flex gap-1 mt-2 justify-center">
             {dateTime ? (
               <>
-                <p className="mr-5 text-sm  text-blue-700">
+                <p className="mr-5 text-sm text-blue-700">
                   {dateTime.toLocaleDateString()}
                 </p>
-                <p className="text-sm  text-blue-700">
+                <p className="text-sm text-blue-700">
                   {dateTime.toLocaleTimeString()} hr
                 </p>
               </>
@@ -69,10 +76,8 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Desktop Menu - Now on Right */}
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-4 ml-auto mr-10">
-          {" "}
-          {/* Change ml-6 to ml-auto */}
           {session?.user && (
             <Link href="/" className="text-gray-700 hover:text-blue-600">
               Home
@@ -164,7 +169,7 @@ export default function Navbar() {
                 setMenuOpen(false);
                 signOut({ callbackUrl: "/" });
               }}
-              className="bg-red-500 text-white px-3 py-2 font-bold rounded hover:bg-red-600 "
+              className="bg-red-500 text-white px-3 py-2 font-bold rounded hover:bg-red-600"
             >
               Sign Out
             </button>

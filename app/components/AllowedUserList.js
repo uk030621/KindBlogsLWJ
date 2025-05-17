@@ -35,7 +35,7 @@ export default function AllowedUsersList({ initialAllowed }) {
         </div>
       )}
       {/*<h2 className="text-xl font-semibold mb-2">Allowed Sign-In Emails</h2>*/}
-      <ul className="list-disc ml-2 mb-4 space-y-1">
+      <ul className="list-disc ml-2 mb-4 space-y-3">
         {allowed.map((entry) => (
           <li
             key={entry._id}
