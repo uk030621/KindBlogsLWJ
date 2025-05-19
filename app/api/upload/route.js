@@ -13,6 +13,7 @@ export async function POST(req) {
   const file = data.get("file");
 
   if (!file) {
+    console.error("❌ No file found in formData");
     return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
   }
 
@@ -33,6 +34,9 @@ export async function POST(req) {
     return NextResponse.json(result);
   } catch (error) {
     console.error("Upload failed:", error);
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message || "Upload failed" },
+      { status: 500 }
+    );
   }
 }
