@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import LinkedText from "./components/LinkedText"; // ✅ keep this import only
+import Image from "next/image";
 
 export default function BlogList({ blogs }) {
   const { data: session, status } = useSession();
@@ -61,6 +62,24 @@ export default function BlogList({ blogs }) {
               key={blog._id}
               className="bg-white p-4 sm:p-6 border rounded shadow-md hover:shadow-lg transition"
             >
+              {blog.imageUrl && (
+                <div className="mb-4">
+                  <a
+                    href={blog.imageUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Image
+                      src={blog.imageUrl}
+                      alt={blog.title}
+                      width={800}
+                      height={400}
+                      className="rounded-lg w-full max-h-64 object-cover"
+                    />
+                  </a>
+                </div>
+              )}
+
               <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-2 whitespace-pre-wrap break-words">
                 {blog.title}
               </h2>

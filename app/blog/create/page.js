@@ -10,6 +10,7 @@ export default function CreateBlogPage() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   if (status === "loading") return <p className="p-4">Loading...</p>;
@@ -22,6 +23,26 @@ export default function CreateBlogPage() {
     e.preventDefault();
     setLoading(true);
 
+    let imageUrl = "";
+    if (imageFile) {
+      const formData = new FormData();
+      formData.append("file", imageFile);
+
+      const uploadRes = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (uploadRes.ok) {
+        const data = await uploadRes.json();
+        imageUrl = data.secure_url;
+      } else {
+        alert("Image upload failed");
+        setLoading(false);
+        return;
+      }
+    }
+
     const res = await fetch("/api/blogs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -30,12 +51,13 @@ export default function CreateBlogPage() {
         content,
         author: session.user.name,
         email: session.user.email,
+        imageUrl,
       }),
     });
 
     if (res.ok) {
       router.push("/blog");
-      router.refresh(); // Refreshes the page
+      router.refresh();
     } else {
       alert("Failed to create blog");
     }
@@ -44,7 +66,7 @@ export default function CreateBlogPage() {
   };
 
   return (
-    <div className=" w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-20 ">
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-20">
       <h1 className="text-2xl font-bold mb-4 text-slate-700 ml-4">
         Submit a post...
       </h1>
@@ -63,6 +85,12 @@ export default function CreateBlogPage() {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
+        />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImageFile(e.target.files[0])}
+          className="block"
         />
         <button
           type="submit"

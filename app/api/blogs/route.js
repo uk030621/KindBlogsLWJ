@@ -30,7 +30,7 @@ export async function POST(req) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const { title, content } = await req.json();
+  const { title, content, imageUrl } = await req.json();
 
   if (!title || !content) {
     return new Response("Title and content are required.", { status: 400 });
@@ -42,6 +42,7 @@ export async function POST(req) {
   const result = await db.collection("blogs").insertOne({
     title,
     content,
+    imageUrl: imageUrl || "", // optional
     userName: session.user.name,
     userEmail: session.user.email,
     createdAt: new Date(),
@@ -49,8 +50,6 @@ export async function POST(req) {
 
   return new Response(
     JSON.stringify({ message: "Blog created", id: result.insertedId }),
-    {
-      status: 201,
-    }
+    { status: 201 }
   );
 }

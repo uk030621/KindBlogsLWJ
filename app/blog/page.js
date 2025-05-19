@@ -21,6 +21,7 @@ export default async function BlogPage() {
     userName: blog.userName,
     userEmail: blog.userEmail,
     createdAt: blog.createdAt,
+    imageUrl: blog.imageUrl || "", // 👈 Add this line
   }));
 
   return <BlogList blogs={blogData} />;
