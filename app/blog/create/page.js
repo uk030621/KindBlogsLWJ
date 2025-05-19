@@ -24,25 +24,43 @@ export default function CreateBlogPage() {
     setLoading(true);
 
     let imageUrl = "";
+
     if (imageFile) {
-      const formData = new FormData();
-      formData.append("file", imageFile);
+      try {
+        // Step 1: Get signature and credentials from your API route
+        const signRes = await fetch("/api/cloudinary/sign");
+        const { signature, timestamp, apiKey, cloudName, folder } =
+          await signRes.json();
 
-      const uploadRes = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
+        // Step 2: Prepare FormData for direct Cloudinary upload
+        const formData = new FormData();
+        formData.append("file", imageFile);
+        formData.append("api_key", apiKey);
+        formData.append("timestamp", timestamp);
+        formData.append("signature", signature);
+        formData.append("folder", folder);
 
-      if (uploadRes.ok) {
-        const data = await uploadRes.json();
-        imageUrl = data.secure_url;
-      } else {
-        alert("Image upload failed");
+        // Step 3: Upload directly to Cloudinary
+        const cloudinaryRes = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (!cloudinaryRes.ok) throw new Error("Cloudinary upload failed");
+
+        const cloudinaryData = await cloudinaryRes.json();
+        imageUrl = cloudinaryData.secure_url;
+      } catch (err) {
+        alert("Image upload failed: " + err.message);
         setLoading(false);
         return;
       }
     }
 
+    // Step 4: Submit blog post with uploaded image URL
     const res = await fetch("/api/blogs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
