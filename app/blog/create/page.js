@@ -27,12 +27,29 @@ export default function CreateBlogPage() {
 
     if (imageFile) {
       try {
-        // Step 1: Get signature and credentials from your API route
+        console.log("📤 Preparing to upload image:", imageFile);
+
+        // Step 1: Get signature
         const signRes = await fetch("/api/cloudinary/sign");
+
+        if (!signRes.ok) {
+          throw new Error(
+            "Failed to fetch signature from /api/cloudinary/sign"
+          );
+        }
+
         const { signature, timestamp, apiKey, cloudName, folder } =
           await signRes.json();
 
-        // Step 2: Prepare FormData for direct Cloudinary upload
+        console.log("✅ Signature fetched:", {
+          signature,
+          timestamp,
+          apiKey,
+          cloudName,
+          folder,
+        });
+
+        // Step 2: Prepare FormData
         const formData = new FormData();
         formData.append("file", imageFile);
         formData.append("api_key", apiKey);
@@ -40,7 +57,17 @@ export default function CreateBlogPage() {
         formData.append("signature", signature);
         formData.append("folder", folder);
 
-        // Step 3: Upload directly to Cloudinary
+        // Log the FormData entries
+        console.log("📦 FormData being sent to Cloudinary:");
+        for (let [key, value] of formData.entries()) {
+          if (key === "file") {
+            console.log(`${key}:`, value.name); // just log filename for file
+          } else {
+            console.log(`${key}:`, value);
+          }
+        }
+
+        // Step 3: Upload to Cloudinary
         const cloudinaryRes = await fetch(
           `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
           {
@@ -49,35 +76,50 @@ export default function CreateBlogPage() {
           }
         );
 
-        if (!cloudinaryRes.ok) throw new Error("Cloudinary upload failed");
+        // DEBUG: capture raw response
+        const debugText = await cloudinaryRes.text();
+        console.log("📨 Cloudinary raw response:", debugText);
 
-        const cloudinaryData = await cloudinaryRes.json();
+        if (!cloudinaryRes.ok) {
+          throw new Error(`Cloudinary upload failed: ${debugText}`);
+        }
+
+        // Only parse JSON after checking success
+        const cloudinaryData = JSON.parse(debugText);
         imageUrl = cloudinaryData.secure_url;
       } catch (err) {
         alert("Image upload failed: " + err.message);
+        console.error("Upload error:", err);
         setLoading(false);
         return;
       }
     }
 
-    // Step 4: Submit blog post with uploaded image URL
-    const res = await fetch("/api/blogs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title,
-        content,
-        author: session.user.name,
-        email: session.user.email,
-        imageUrl,
-      }),
-    });
+    // Step 4: Submit blog post
+    try {
+      const res = await fetch("/api/blogs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          content,
+          author: session.user.name,
+          email: session.user.email,
+          imageUrl,
+        }),
+      });
 
-    if (res.ok) {
-      router.push("/blog");
-      router.refresh();
-    } else {
-      alert("Failed to create blog");
+      if (res.ok) {
+        console.log("✅ Blog post created");
+        router.push("/blog");
+        router.refresh();
+      } else {
+        console.error("❌ Failed to create blog:", await res.text());
+        alert("Failed to create blog");
+      }
+    } catch (err) {
+      console.error("❌ Blog submission error:", err);
+      alert("Something went wrong");
     }
 
     setLoading(false);
