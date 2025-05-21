@@ -12,6 +12,7 @@ export default function CreateBlogPage() {
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
 
   if (status === "loading") return <p className="p-4">Loading...</p>;
   if (!session) {
@@ -27,9 +28,9 @@ export default function CreateBlogPage() {
 
     if (imageFile) {
       try {
+        setImageLoading(true);
         console.log("📤 Preparing to upload image:", imageFile);
 
-        // Step 1: Get signature — use POST and send folder
         const signRes = await fetch("/api/cloudinary/sign", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -60,12 +61,6 @@ export default function CreateBlogPage() {
         formData.append("signature", signature);
         formData.append("folder", folder);
 
-        console.log("📦 FormData being sent to Cloudinary:");
-        for (let [key, value] of formData.entries()) {
-          if (key === "file") console.log(`${key}:`, value.name);
-          else console.log(`${key}:`, value);
-        }
-
         const cloudinaryRes = await fetch(
           `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
           {
@@ -75,7 +70,6 @@ export default function CreateBlogPage() {
         );
 
         const debugText = await cloudinaryRes.text();
-        console.log("📨 Cloudinary raw response:", debugText);
 
         if (!cloudinaryRes.ok) {
           throw new Error(`Cloudinary upload failed: ${debugText}`);
@@ -86,12 +80,11 @@ export default function CreateBlogPage() {
       } catch (err) {
         alert("Image upload failed: " + err.message);
         console.error("Upload error:", err);
-        setLoading(false);
-        return;
+      } finally {
+        setImageLoading(false);
       }
     }
 
-    // Step 2: Submit blog post
     try {
       const res = await fetch("/api/blogs", {
         method: "POST",
@@ -106,15 +99,12 @@ export default function CreateBlogPage() {
       });
 
       if (res.ok) {
-        console.log("✅ Blog post created");
         router.push("/blog");
         router.refresh();
       } else {
-        console.error("❌ Failed to create blog:", await res.text());
         alert("Failed to create blog");
       }
     } catch (err) {
-      console.error("❌ Blog submission error:", err);
       alert("Something went wrong");
     }
 
@@ -148,6 +138,11 @@ export default function CreateBlogPage() {
           onChange={(e) => setImageFile(e.target.files[0])}
           className="block"
         />
+        {imageLoading && (
+          <p className="text-sm text-gray-500 bg-green-200 w-fit px-2 py-2">
+            Uploading image...
+          </p>
+        )}
         <button
           type="submit"
           disabled={loading}

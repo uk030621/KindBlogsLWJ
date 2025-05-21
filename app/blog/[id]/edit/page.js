@@ -12,6 +12,7 @@ export default function EditBlogPage({ params }) {
   const [error, setError] = useState("");
   const [newImage, setNewImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
 
   useEffect(() => {
     async function fetchBlog() {
@@ -28,39 +29,45 @@ export default function EditBlogPage({ params }) {
   }, [params.id]);
 
   const uploadImageToCloudinary = async () => {
-    const sigRes = await fetch("/api/cloudinary/sign", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ folder: "blog-images" }),
-    });
+    setImageUploading(true);
 
-    const { timestamp, signature, apiKey, cloudName, folder } =
-      await sigRes.json();
-
-    const formData = new FormData();
-    formData.append("file", newImage);
-    formData.append("api_key", apiKey);
-    formData.append("timestamp", timestamp);
-    formData.append("signature", signature);
-    formData.append("folder", folder);
-
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
-      {
+    try {
+      const sigRes = await fetch("/api/cloudinary/sign", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ folder: "blog-images" }),
+      });
+
+      const { timestamp, signature, apiKey, cloudName, folder } =
+        await sigRes.json();
+
+      const formData = new FormData();
+      formData.append("file", newImage);
+      formData.append("api_key", apiKey);
+      formData.append("timestamp", timestamp);
+      formData.append("signature", signature);
+      formData.append("folder", folder);
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const debugText = await res.text();
+      if (!res.ok) {
+        throw new Error(`Image upload failed: ${debugText}`);
       }
-    );
 
-    const debugText = await res.text();
-    console.log("📨 Cloudinary raw response:", debugText);
-
-    if (!res.ok) {
-      throw new Error(`Image upload failed: ${debugText}`);
+      const data = JSON.parse(debugText);
+      return data.secure_url;
+    } catch (error) {
+      throw error;
+    } finally {
+      setImageUploading(false);
     }
-
-    const data = JSON.parse(debugText);
-    return data.secure_url;
   };
 
   const handleUpdate = async (e) => {
@@ -148,6 +155,11 @@ export default function EditBlogPage({ params }) {
           )}
         </div>
 
+        {imageUploading && (
+          <p className="text-sm text-gray-500 bg-green-200 w-fit px-2 py-2">
+            Uploading image...
+          </p>
+        )}
         {error && <p className="text-red-500">{error}</p>}
 
         <button
