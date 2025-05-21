@@ -28,7 +28,12 @@ export default function EditBlogPage({ params }) {
   }, [params.id]);
 
   const uploadImageToCloudinary = async () => {
-    const sigRes = await fetch("/api/cloudinary/sign");
+    const sigRes = await fetch("/api/cloudinary/sign", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ folder: "blog-images" }),
+    });
+
     const { timestamp, signature, apiKey, cloudName, folder } =
       await sigRes.json();
 
@@ -40,18 +45,21 @@ export default function EditBlogPage({ params }) {
     formData.append("folder", folder);
 
     const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, // ← updated here
+      `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
       {
         method: "POST",
         body: formData,
       }
     );
 
-    const data = await res.json();
-    if (!data.secure_url) {
-      throw new Error("Image upload failed");
+    const debugText = await res.text();
+    console.log("📨 Cloudinary raw response:", debugText);
+
+    if (!res.ok) {
+      throw new Error(`Image upload failed: ${debugText}`);
     }
 
+    const data = JSON.parse(debugText);
     return data.secure_url;
   };
 

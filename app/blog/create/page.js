@@ -29,8 +29,12 @@ export default function CreateBlogPage() {
       try {
         console.log("📤 Preparing to upload image:", imageFile);
 
-        // Step 1: Get signature
-        const signRes = await fetch("/api/cloudinary/sign");
+        // Step 1: Get signature — use POST and send folder
+        const signRes = await fetch("/api/cloudinary/sign", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ folder: "blog-images" }),
+        });
 
         if (!signRes.ok) {
           throw new Error(
@@ -49,7 +53,6 @@ export default function CreateBlogPage() {
           folder,
         });
 
-        // Step 2: Prepare FormData
         const formData = new FormData();
         formData.append("file", imageFile);
         formData.append("api_key", apiKey);
@@ -57,17 +60,12 @@ export default function CreateBlogPage() {
         formData.append("signature", signature);
         formData.append("folder", folder);
 
-        // Log the FormData entries
         console.log("📦 FormData being sent to Cloudinary:");
         for (let [key, value] of formData.entries()) {
-          if (key === "file") {
-            console.log(`${key}:`, value.name); // just log filename for file
-          } else {
-            console.log(`${key}:`, value);
-          }
+          if (key === "file") console.log(`${key}:`, value.name);
+          else console.log(`${key}:`, value);
         }
 
-        // Step 3: Upload to Cloudinary
         const cloudinaryRes = await fetch(
           `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
           {
@@ -76,7 +74,6 @@ export default function CreateBlogPage() {
           }
         );
 
-        // DEBUG: capture raw response
         const debugText = await cloudinaryRes.text();
         console.log("📨 Cloudinary raw response:", debugText);
 
@@ -84,7 +81,6 @@ export default function CreateBlogPage() {
           throw new Error(`Cloudinary upload failed: ${debugText}`);
         }
 
-        // Only parse JSON after checking success
         const cloudinaryData = JSON.parse(debugText);
         imageUrl = cloudinaryData.secure_url;
       } catch (err) {
@@ -95,7 +91,7 @@ export default function CreateBlogPage() {
       }
     }
 
-    // Step 4: Submit blog post
+    // Step 2: Submit blog post
     try {
       const res = await fetch("/api/blogs", {
         method: "POST",
