@@ -21,26 +21,32 @@ cloudinary.config({
 });
 
 export async function GET() {
-  const now = Math.floor(Date.now() / 1000); // current server UNIX time
-  const bufferSeconds = 60;
-  const timestamp = now + bufferSeconds;
+  // 🚫 Disable caching
+  const headers = {
+    "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    Pragma: "no-cache",
+    Expires: "0",
+    "Surrogate-Control": "no-store",
+  };
 
-  // 🪵 Debug logs (visible in Vercel server logs)
-  console.log("🕒 Server time (UTC):", new Date(now * 1000).toISOString());
-  console.log("⏳ Provided timestamp (+60s buffer):", timestamp);
+  const now = Math.floor(Date.now() / 1000);
+  const timestamp = now + 60;
 
-  // ✅ Signature must include all parameters sent from the client
+  console.log("📡 Timestamp sent at:", timestamp); // ✅ RIGHT HERE
+
   const signature = cloudinary.utils.api_sign_request(
     { timestamp, folder: CLOUDINARY_FOLDER },
     CLOUDINARY_API_SECRET
   );
 
-  // ✅ Return all data client will need for direct upload
-  return NextResponse.json({
-    timestamp,
-    signature,
-    apiKey: CLOUDINARY_API_KEY,
-    cloudName: CLOUDINARY_CLOUD_NAME,
-    folder: CLOUDINARY_FOLDER,
-  });
+  return NextResponse.json(
+    {
+      timestamp,
+      signature,
+      apiKey: CLOUDINARY_API_KEY,
+      cloudName: CLOUDINARY_CLOUD_NAME,
+      folder: CLOUDINARY_FOLDER,
+    },
+    { headers }
+  );
 }
