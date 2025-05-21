@@ -21,7 +21,13 @@ cloudinary.config({
 });
 
 export async function GET() {
-  const timestamp = Math.floor(Date.now() / 1000); // UNIX seconds (rounded)
+  const now = Math.floor(Date.now() / 1000); // current server UNIX time
+  const bufferSeconds = 60;
+  const timestamp = now + bufferSeconds;
+
+  // 🪵 Debug logs (visible in Vercel server logs)
+  console.log("🕒 Server time (UTC):", new Date(now * 1000).toISOString());
+  console.log("⏳ Provided timestamp (+60s buffer):", timestamp);
 
   // ✅ Signature must include all parameters sent from the client
   const signature = cloudinary.utils.api_sign_request(
