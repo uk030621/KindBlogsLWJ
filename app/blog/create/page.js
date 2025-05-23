@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -13,6 +13,19 @@ export default function CreateBlogPage() {
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
+
+  const [sendEmail, setSendEmail] = useState(true);
+  const [allowedUsers, setAllowedUsers] = useState([]);
+  const [selectedRecipients, setSelectedRecipients] = useState([]);
+
+  useEffect(() => {
+    if (sendEmail) {
+      fetch("/api/allowed-users")
+        .then((res) => res.json())
+        .then((data) => setAllowedUsers(data.emails || []))
+        .catch((err) => console.error("Error fetching users", err));
+    }
+  }, [sendEmail]);
 
   if (status === "loading") return <p className="p-4">Loading...</p>;
   if (!session) {
@@ -29,30 +42,14 @@ export default function CreateBlogPage() {
     if (imageFile) {
       try {
         setImageLoading(true);
-        console.log("📤 Preparing to upload image:", imageFile);
-
         const signRes = await fetch("/api/cloudinary/sign", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ folder: "blog-images" }),
         });
 
-        if (!signRes.ok) {
-          throw new Error(
-            "Failed to fetch signature from /api/cloudinary/sign"
-          );
-        }
-
         const { signature, timestamp, apiKey, cloudName, folder } =
           await signRes.json();
-
-        console.log("✅ Signature fetched:", {
-          signature,
-          timestamp,
-          apiKey,
-          cloudName,
-          folder,
-        });
 
         const formData = new FormData();
         formData.append("file", imageFile);
@@ -99,6 +96,19 @@ export default function CreateBlogPage() {
       });
 
       if (res.ok) {
+        if (sendEmail && selectedRecipients.length > 0) {
+          await fetch("/api/email/blog", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              title,
+              content,
+              imageUrl,
+              recipients: selectedRecipients,
+            }),
+          });
+        }
+
         router.push("/blog");
         router.refresh();
       } else {
@@ -143,6 +153,59 @@ export default function CreateBlogPage() {
             Uploading image...
           </p>
         )}
+
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={sendEmail}
+            onChange={() => setSendEmail(!sendEmail)}
+            className="h-4 w-4"
+          />
+          <span>Send this post to selected allowed users</span>
+        </label>
+
+        {sendEmail && allowedUsers.length > 0 && (
+          <div className="w-full border p-2 rounded">
+            <button
+              type="button"
+              onClick={() => {
+                if (selectedRecipients.length === allowedUsers.length) {
+                  setSelectedRecipients([]); // Deselect all
+                } else {
+                  setSelectedRecipients([...allowedUsers]); // Select all
+                }
+              }}
+              className="mb-2 px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300"
+            >
+              {selectedRecipients.length === allowedUsers.length
+                ? "Deselect All"
+                : "Select All"}
+            </button>
+            {allowedUsers.map((email) => (
+              <label key={email} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  value={email}
+                  checked={selectedRecipients.includes(email)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedRecipients([...selectedRecipients, email]);
+                    } else {
+                      setSelectedRecipients(
+                        selectedRecipients.filter(
+                          (recipient) => recipient !== email
+                        )
+                      );
+                    }
+                  }}
+                  className="h-4 w-4"
+                />
+                <span>{email}</span>
+              </label>
+            ))}
+          </div>
+        )}
+
         <button
           type="submit"
           disabled={loading}
