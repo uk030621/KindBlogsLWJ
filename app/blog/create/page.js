@@ -18,7 +18,8 @@ export default function CreateBlogPage() {
   const [allowedUsers, setAllowedUsers] = useState([]);
   const [selectedRecipients, setSelectedRecipients] = useState([]);
 
-  useEffect(() => {
+  {
+    /*useEffect(() => {
     if (!sendEmail) return;
 
     fetch("/api/allowed-users")
@@ -33,7 +34,8 @@ export default function CreateBlogPage() {
       .catch((err) => {
         console.error("Error fetching allowed users", err);
       });
-  }, [sendEmail]);
+  }, [sendEmail]);*/
+  }
 
   useEffect(() => {
     if (sendEmail) {
