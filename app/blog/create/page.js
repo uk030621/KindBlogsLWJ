@@ -1,11 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import useSWR from "swr";
-import { useState } from "react";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function CreateBlogPage() {
   const { data: session, status } = useSession();
@@ -16,17 +13,41 @@ export default function CreateBlogPage() {
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
+
   const [sendEmail, setSendEmail] = useState(true);
+  const [allowedUsers, setAllowedUsers] = useState([]);
   const [selectedRecipients, setSelectedRecipients] = useState([]);
 
-  const {
-    data,
-    error,
-    isLoading,
-    mutate: refreshAllowedUsers,
-  } = useSWR(sendEmail ? "/api/allowed-users" : null, fetcher);
+  {
+    /*useEffect(() => {
+    if (!sendEmail) return;
 
-  const allowedUsers = data?.emails || [];
+    fetch("/api/allowed-users")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch users");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Fetched allowed users:", data);
+        setAllowedUsers(data.emails || []);
+      })
+      .catch((err) => {
+        console.error("Error fetching allowed users", err);
+      });
+  }, [sendEmail]);*/
+  }
+
+  useEffect(() => {
+    if (sendEmail) {
+      fetch("/api/allowed-users", {
+        method: "GET",
+        cache: "no-store", // ✅ Force fresh data (disable cache)
+      })
+        .then((res) => res.json())
+        .then((data) => setAllowedUsers(data.emails || []))
+        .catch((err) => console.error("Error fetching users", err));
+    }
+  }, [sendEmail]);
 
   if (status === "loading") return <p className="p-4">Loading...</p>;
   if (!session) {
@@ -77,6 +98,7 @@ export default function CreateBlogPage() {
         imageUrl = cloudinaryData.secure_url;
       } catch (err) {
         alert("Image upload failed: " + err.message);
+        console.error("Upload error:", err);
       } finally {
         setImageLoading(false);
       }
@@ -166,32 +188,21 @@ export default function CreateBlogPage() {
 
         {sendEmail && allowedUsers.length > 0 && (
           <div className="w-full border p-2 rounded">
-            <div className="flex justify-between items-center mb-2">
-              <button
-                type="button"
-                onClick={() => {
-                  if (selectedRecipients.length === allowedUsers.length) {
-                    setSelectedRecipients([]);
-                  } else {
-                    setSelectedRecipients([...allowedUsers]);
-                  }
-                }}
-                className="px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300"
-              >
-                {selectedRecipients.length === allowedUsers.length
-                  ? "Deselect All"
-                  : "Select All"}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => refreshAllowedUsers()}
-                className="ml-2 text-sm text-blue-600 hover:underline"
-              >
-                Refresh Users
-              </button>
-            </div>
-
+            <button
+              type="button"
+              onClick={() => {
+                if (selectedRecipients.length === allowedUsers.length) {
+                  setSelectedRecipients([]); // Deselect all
+                } else {
+                  setSelectedRecipients([...allowedUsers]); // Select all
+                }
+              }}
+              className="mb-2 px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300"
+            >
+              {selectedRecipients.length === allowedUsers.length
+                ? "Deselect All"
+                : "Select All"}
+            </button>
             {allowedUsers.map((email) => (
               <label key={email} className="flex items-center gap-2">
                 <input
@@ -203,7 +214,9 @@ export default function CreateBlogPage() {
                       setSelectedRecipients([...selectedRecipients, email]);
                     } else {
                       setSelectedRecipients(
-                        selectedRecipients.filter((r) => r !== email)
+                        selectedRecipients.filter(
+                          (recipient) => recipient !== email
+                        )
                       );
                     }
                   }}
