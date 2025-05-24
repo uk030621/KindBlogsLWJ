@@ -3,8 +3,9 @@ import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  let client;
   try {
-    const client = await MongoClient.connect(process.env.MONGODB_URI);
+    client = await MongoClient.connect(process.env.MONGODB_URI);
     const db = client.db();
     const users = await db.collection("allowedUsers").find({}).toArray();
     const emails = users.map((u) => u.email).filter(Boolean);
@@ -15,5 +16,9 @@ export async function GET() {
       { error: "Failed to fetch allowed users" },
       { status: 500 }
     );
+  } finally {
+    if (client) {
+      await client.close();
+    }
   }
 }

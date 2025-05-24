@@ -19,6 +19,23 @@ export default function CreateBlogPage() {
   const [selectedRecipients, setSelectedRecipients] = useState([]);
 
   useEffect(() => {
+    if (!sendEmail) return;
+
+    fetch("/api/allowed-users")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch users");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Fetched allowed users:", data);
+        setAllowedUsers(data.emails || []);
+      })
+      .catch((err) => {
+        console.error("Error fetching allowed users", err);
+      });
+  }, [sendEmail]);
+
+  useEffect(() => {
     if (sendEmail) {
       fetch("/api/allowed-users")
         .then((res) => res.json())
