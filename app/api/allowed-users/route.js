@@ -2,6 +2,8 @@
 import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic"; // at top of file (if App Router)
+
 export async function GET() {
   let client;
   try {
