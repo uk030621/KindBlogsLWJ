@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AllowedUsersList({ initialAllowed }) {
   const [allowed, setAllowed] = useState(initialAllowed);
   const [message, setMessage] = useState("");
+  const router = useRouter();
 
   const deleteEmail = async (email) => {
     const res = await fetch("/api/allowedUsers/delete", {
@@ -20,6 +22,7 @@ export default function AllowedUsersList({ initialAllowed }) {
     if (res.ok) {
       setAllowed((prev) => prev.filter((entry) => entry.email !== email));
       setMessage(`✅ Removed ${email}`);
+      router.refresh(); // 👈 This forces a refetch of all server components
     } else {
       setMessage(`❌ ${result.error || "Failed to delete email"}`);
     }
@@ -34,7 +37,6 @@ export default function AllowedUsersList({ initialAllowed }) {
           {message}
         </div>
       )}
-      {/*<h2 className="text-xl font-semibold mb-2">Allowed Sign-In Emails</h2>*/}
       <ul className="list-disc ml-2 mb-4 space-y-3">
         {allowed.map((entry) => (
           <li
