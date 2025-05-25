@@ -1,5 +1,5 @@
 // seed-allowed-users.js (CommonJS)
-const { MongoClient } = require("mongodb");
+/*const { MongoClient } = require("mongodb");
 require("dotenv").config({ path: ".env.local" }); // Explicitly load .env.local
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -43,4 +43,4 @@ async function seedAllowedUsers() {
   }
 }
 
-seedAllowedUsers();
+seedAllowedUsers();*/
