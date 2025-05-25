@@ -10,7 +10,7 @@ export default function Providers({ children, session }) {
         <Navbar />
         <main className="flex-grow">{children}</main>
         <footer className="bg-slate-200 text-black text-center py-4 pb-8">
-          © {new Date().getFullYear()} LWJ Group Posts. All rights reserved.
+          © {new Date().getFullYear()} LWJ Handy Posts. All rights reserved.
         </footer>
       </div>
     </SessionProvider>
