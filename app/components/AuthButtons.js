@@ -18,13 +18,17 @@ export default function AuthButtons({ isAuthenticated, userName }) {
 
   const handleSignIn = async () => {
     setLoading(true); // Show loading message
-    await signIn("google", { callbackUrl: "/" }); // Perform sign-in
-    setLoading(false); // Hide loading message after sign-in
+    await signIn("google", { callbackUrl: "/" }); // Wait for authentication to complete
   };
 
   return (
     <div className="mx-auto px-4 py-4 pt-4">
-      {isAuthenticated ? (
+      {loading && !isAuthenticated ? ( // Keep loading screen active until authenticated
+        <div className="flex flex-col items-center justify-center min-h-[50px] mt-20">
+          <p className="text-black text-lg mb-4">Signing in, please wait...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-700"></div>
+        </div>
+      ) : isAuthenticated ? (
         <>
           <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold text-black mt-20">
             Hello {userName}!
@@ -54,28 +58,19 @@ export default function AuthButtons({ isAuthenticated, userName }) {
           </p>
 
           <div className="flex flex-col items-center justify-center min-h-[50px] w-full">
-            {loading ? (
-              <div className="flex flex-col items-center">
-                <p className="text-black text-lg mb-2">
-                  Signing in, please wait...
-                </p>
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-700"></div>
-              </div>
-            ) : (
-              <button
-                onClick={handleSignIn}
-                className="ml-4 text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center"
-              >
-                <Image
-                  src="/G.png"
-                  alt="Google logo"
-                  width={30}
-                  height={30}
-                  className="rounded-md mr-2"
-                />
-                Sign In with Google
-              </button>
-            )}
+            <button
+              onClick={handleSignIn}
+              className="ml-4 text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center"
+            >
+              <Image
+                src="/G.png"
+                alt="Google logo"
+                width={30}
+                height={30}
+                className="rounded-md mr-2"
+              />
+              Sign In with Google
+            </button>
           </div>
 
           <p className="mt-2 text-sm text-gray-600">
