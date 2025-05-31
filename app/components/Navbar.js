@@ -39,7 +39,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-slate-200 py-8 px-2">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white py-8 px-2 bg-background2">
       <div className="flex justify-between items-center">
         {/* Hamburger Button with dummy placeholder on desktop */}
         <div className="ml-4">
