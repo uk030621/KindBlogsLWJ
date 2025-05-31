@@ -106,7 +106,7 @@ export default function EditBlogPage({ params }) {
   if (!blog) return <p className="p-4">Loading...</p>;
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 py-8 mt-20">
+    <div className="w-full max-w-5xl mx-auto px-4 py-8 mt-1">
       <h1 className="text-3xl font-bold mb-4">Edit Blog</h1>
       <form onSubmit={handleUpdate} className="space-y-4">
         <input

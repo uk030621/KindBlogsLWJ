@@ -32,20 +32,20 @@ export default function AuthButtons({ isAuthenticated, userName }) {
     <div className="mx-auto px-4 py-4 pt-4">
       {/* Show loading screen when signing in */}
       {loadingSignIn && !isAuthenticated ? (
-        <div className="flex flex-col items-center justify-center min-h-[50px] mt-20">
+        <div className="flex flex-col items-center justify-center min-h-[50px] mt-1">
           <p className="text-black text-lg mb-4">Signing in, please wait...</p>
           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-700"></div>
         </div>
       ) : loadingSignOut ? (
         /* Show loading screen when signing out */
-        <div className="flex flex-col items-center justify-center min-h-[50px] mt-20">
+        <div className="flex flex-col items-center justify-center min-h-[50px] mt-1">
           <p className="text-black text-lg mb-4">Signing out, please wait...</p>
           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-red-600"></div>
         </div>
       ) : isAuthenticated ? (
         /* Signed-in screen */
         <>
-          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold text-black mt-20">
+          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold text-black mt-1">
             Hello {userName}!
           </h1>
           <p className="text-lg text-black mb-3">You&apos;re signed in.</p>
@@ -73,7 +73,7 @@ export default function AuthButtons({ isAuthenticated, userName }) {
       ) : (
         /* Sign-in screen */
         <>
-          <p className="text-lg text-black mb-6 mt-20">
+          <p className="text-lg text-black mb-6 mt-1">
             Share your tips, pics, and links.
             <br />
             <span className="text-slate-700 text-sm">
