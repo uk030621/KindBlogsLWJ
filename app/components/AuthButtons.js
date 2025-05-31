@@ -1,14 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
+
 import Image from "next/image";
 import Link from "next/link";
 
 export default function AuthButtons({ isAuthenticated, userName }) {
   const [animateImage, setAnimateImage] = useState(false);
   const [showExamples, setShowExamples] = useState(false);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loadingSignIn, setLoadingSignIn] = useState(false); // Loading for sign-in
+  const [loadingSignOut, setLoadingSignOut] = useState(false); // Loading for sign-
 
   useEffect(() => {
     setTimeout(() => {
@@ -17,18 +19,31 @@ export default function AuthButtons({ isAuthenticated, userName }) {
   }, []);
 
   const handleSignIn = async () => {
-    setLoading(true); // Show loading message
+    setLoadingSignIn(true); // Show loading for sign-in
     await signIn("google", { callbackUrl: "/" }); // Wait for authentication to complete
+  };
+
+  const handleSignOut = async () => {
+    setLoadingSignOut(true); // Show loading for sign-out
+    await signOut(); // Wait for sign-out to complete
   };
 
   return (
     <div className="mx-auto px-4 py-4 pt-4">
-      {loading && !isAuthenticated ? ( // Keep loading screen active until authenticated
+      {/* Show loading screen when signing in */}
+      {loadingSignIn && !isAuthenticated ? (
         <div className="flex flex-col items-center justify-center min-h-[50px] mt-20">
           <p className="text-black text-lg mb-4">Signing in, please wait...</p>
           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-700"></div>
         </div>
+      ) : loadingSignOut ? (
+        /* Show loading screen when signing out */
+        <div className="flex flex-col items-center justify-center min-h-[50px] mt-20">
+          <p className="text-black text-lg mb-4">Signing out, please wait...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-red-600"></div>
+        </div>
       ) : isAuthenticated ? (
+        /* Signed-in screen */
         <>
           <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold text-black mt-20">
             Hello {userName}!
@@ -37,17 +52,26 @@ export default function AuthButtons({ isAuthenticated, userName }) {
           <Image
             src="/post.jpg"
             alt="Welcome illustration"
-            width={200}
-            height={200}
             className={`mx-auto mb-6 rounded-full transition-transform duration-700 ease-out ${
               animateImage ? "scale-100 opacity-100" : "scale-0 opacity-0"
             }`}
+            width={200}
+            height={200}
+            style={{ width: "100%", height: "auto" }}
           />
           <p className="text-basic text-black mb-3">
             Practical Tips from Your Group.
           </p>
+          {/* Sign-Out Button */}
+          <button
+            onClick={handleSignOut}
+            className="mt-4 text-lg px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded"
+          >
+            Sign Out
+          </button>
         </>
       ) : (
+        /* Sign-in screen */
         <>
           <p className="text-lg text-black mb-6 mt-20">
             Share your tips, pics, and links.
