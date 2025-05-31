@@ -43,3 +43,8 @@ footer {
   flex: 1; /* Allow it to grow and fill the available space */
   overflow: hidden; /* Keep overflow behavior for the background video */
 }
+
+.text-container {
+  text-align: left;
+  margin-bottom: 16px;
+}

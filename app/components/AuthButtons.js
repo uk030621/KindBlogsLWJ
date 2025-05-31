@@ -8,12 +8,19 @@ import Link from "next/link";
 export default function AuthButtons({ isAuthenticated, userName }) {
   const [animateImage, setAnimateImage] = useState(false);
   const [showExamples, setShowExamples] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
 
   useEffect(() => {
     setTimeout(() => {
       setAnimateImage(true);
     }, 100);
   }, []);
+
+  const handleSignIn = async () => {
+    setLoading(true); // Show loading message
+    await signIn("google", { callbackUrl: "/" }); // Perform sign-in
+    setLoading(false); // Hide loading message after sign-in
+  };
 
   return (
     <div className="mx-auto px-4 py-4 pt-4">
@@ -33,34 +40,42 @@ export default function AuthButtons({ isAuthenticated, userName }) {
             }`}
           />
           <p className="text-basic text-black mb-3">
-            View and submit &apos;handy&apos; posts...
-          </p>
-          <p className="text-sm text-black">
-            <span className="underline font-bold">Note:</span> You can edit or
-            delete your own posts.
+            Practical Tips from Your Group.
           </p>
         </>
       ) : (
         <>
           <p className="text-lg text-black mb-6 mt-20">
-            Share your messages and links.
+            Share your tips, pics, and links.
             <br />
-            <span>Sign in to get started!</span>
+            <span className="text-slate-700 text-sm">
+              Sign in below to get started!
+            </span>
           </p>
+
           <div className="flex flex-col items-center justify-center min-h-[50px] w-full">
-            <button
-              onClick={() => signIn("google", { callbackUrl: "/" })}
-              className="ml-4 text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center"
-            >
-              <Image
-                src="/G.png"
-                alt="Google logo"
-                width={30}
-                height={30}
-                className="rounded-md mr-2"
-              />
-              Sign In with Google
-            </button>
+            {loading ? (
+              <div className="flex flex-col items-center">
+                <p className="text-black text-lg mb-2">
+                  Signing in, please wait...
+                </p>
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-700"></div>
+              </div>
+            ) : (
+              <button
+                onClick={handleSignIn}
+                className="ml-4 text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center"
+              >
+                <Image
+                  src="/G.png"
+                  alt="Google logo"
+                  width={30}
+                  height={30}
+                  className="rounded-md mr-2"
+                />
+                Sign In with Google
+              </button>
+            )}
           </div>
 
           <p className="mt-2 text-sm text-gray-600">
@@ -76,106 +91,90 @@ export default function AuthButtons({ isAuthenticated, userName }) {
             </Link>
           </p>
 
-          {/* Dropdown for Handy Messages & Links */}
+          {/* Dropdown for SmartShare Messages & Links */}
           <div className="mt-6">
             <button
               onClick={() => setShowExamples(!showExamples)}
-              className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded "
+              className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded"
             >
               {showExamples ? "Hide Examples" : "Show Examples"}
             </button>
 
             {showExamples && (
               <div className="mt-4 p-4 border rounded bg-white shadow-lg text-black">
-                <h2 className="font-bold text-sm">Handy Messages & Links:</h2>
-                <ul className="list-disc pl-5 mt-2 text-xs">
-                  <li>
-                    🌞 *Morning check-in:* &quot;Hope you all have a great
-                    day!&quot;
-                  </li>
-                  <li>
-                    🍽 *Dinner plans:* &quot;Who&apos;s up for Sunday
-                    lunch?&quot;
-                  </li>
-                  <li>
-                    ☔ *Weather alerts:* &quot;It&apos;s looking rainy
-                    today—don’t forget your umbrellas!&quot;
-                  </li>
-                  <li>
-                    📚 *School & work reminders:* &quot;Reminder: Parent-teacher
-                    meeting at 6 PM tonight!&quot;
-                  </li>
-                  <li>
-                    🚦 *Traffic updates:* &quot;Avoid the town center, big
-                    accident!&quot;
-                  </li>
-                  <li>
-                    🎭 **Local Events:**{" "}
-                    <Link
-                      href="https://www.eventbrite.co.uk"
-                      className="text-blue-500 hover:underline"
-                    >
-                      Eventbrite UK
-                    </Link>
-                  </li>
-                  <li>
-                    ⛅ **Weather Forecast:**{" "}
-                    <Link
-                      href="https://www.bbc.co.uk/weather"
-                      className="text-blue-500 hover:underline"
-                    >
-                      BBC Weather
-                    </Link>
-                  </li>
-                  <li>
-                    🗓 **Family Calendar:**{" "}
-                    <Link
-                      href="https://www.google.com/calendar"
-                      className="text-blue-500 hover:underline"
-                    >
-                      Google Calendar
-                    </Link>
-                  </li>
-                  <li>
-                    🛒 **Shopping Deals:**{" "}
-                    <Link
-                      href="https://www.hotukdeals.com"
-                      className="text-blue-500 hover:underline"
-                    >
-                      Hot UK Deals
-                    </Link>
-                  </li>
-                  <li>
-                    ⚕ **Emergency Contacts:**{" "}
-                    <Link
-                      href="https://www.nhs.uk"
-                      className="text-blue-500 hover:underline"
-                    >
-                      NHS Emergency Info
-                    </Link>
-                  </li>
-                  <li>
-                    🧠 *Weekly family trivia:* &quot;Who can guess this
-                    week&apos;s riddle first?&quot;
-                  </li>
-                  <li>
-                    📸 *Throwback pictures:* &quot;Look at this gem from 10
-                    years ago!&quot;
-                  </li>
-                  <li>
-                    📊 *Polls:* &quot;Where should we go for our next family
-                    trip? Vote below!&quot;
-                  </li>
-                  <li>
-                    🍝 *Recipe sharing:* &quot;Tried this new pasta
-                    dish—here&apos;s the recipe if anyone wants to give it a
-                    go!&quot;
-                  </li>
-                  <li>
-                    🎉 *Good news updates:* &quot;Big congratulations to Sam for
-                    passing their driving test!&quot;
-                  </li>
-                </ul>
+                <p className="text-container">
+                  🕒{" "}
+                  <strong>10 Time-Saving Hacks for Busy Professionals:</strong>{" "}
+                  A list of practical tips to boost productivity.{" "}
+                  <a
+                    className="text-blue-600 underline"
+                    href="https://zeenews.india.com/web-stories/lifestyle/10-time-saving-hacks-for-busy-professionals-2746737"
+                    target="_blank"
+                  >
+                    Examples
+                  </a>
+                </p>
+
+                <p className="text-container">
+                  🦉{" "}
+                  <strong>
+                    How to Organize Your Workspace for Maximum Efficiency:
+                  </strong>{" "}
+                  A step-by-step guide to decluttering and optimizing your work
+                  environment.{" "}
+                  <a
+                    className="text-blue-600 underline"
+                    href="https://www.microsoft.com/en-us/microsoft-365-life-hacks/organization/how-to-organize-your-desk-for-maximum-productivity"
+                    target="_blank"
+                  >
+                    Examples
+                  </a>
+                </p>
+
+                <p className="text-container">
+                  💰{" "}
+                  <strong>
+                    The Best Budgeting Tips for Financial Success:
+                  </strong>{" "}
+                  A breakdown of smart money management strategies.{" "}
+                  <a
+                    className="text-blue-600 underline"
+                    href="https://bethebudget.com/budgeting-tips/"
+                    target="_blank"
+                  >
+                    Examples
+                  </a>
+                </p>
+
+                <p className="text-container">
+                  🥗{" "}
+                  <strong>
+                    Quick and Healthy Meal Prep Ideas for the Week:
+                  </strong>{" "}
+                  A collection of easy-to-follow meal prep tips.{" "}
+                  <a
+                    className="text-blue-600 underline"
+                    href="https://www.eatingwell.com/article/7940198/healthy-meal-prep-ideas/"
+                    target="_blank"
+                  >
+                    Examples
+                  </a>
+                </p>
+
+                <p className="text-container">
+                  💻{" "}
+                  <strong>
+                    Essential Tech Tools to Streamline Your Workflow:
+                  </strong>{" "}
+                  A curated list of apps and software that enhance productivity.{" "}
+                  <a
+                    className="text-blue-600 underline"
+                    href="https://www.businesstechweekly.com/apps-and-tools/applications-and-tools/best-workflow-apps/"
+                    target="_blank"
+                  >
+                    Examples
+                  </a>
+                </p>
               </div>
             )}
           </div>

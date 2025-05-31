@@ -5,7 +5,7 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 import Providers from "./components/Providers";
 
 export const metadata = {
-  title: "Handy Posts",
+  title: "SmartShare",
   description: "Developed by LWJ",
   icons: {
     icon: "/icons/icon-512x512.png", // Favicon

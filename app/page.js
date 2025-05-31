@@ -1,32 +1,29 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import AuthButtons from "./components/AuthButtons";
-import ForceRefresh from "./components/ForceRefresh"; // 👈 new
+import ForceRefresh from "./components/ForceRefresh";
+import ErrorBoundary from "./components/ErrorBoundary"; // optional
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"; // ✅ only once
 
 export default async function Home() {
-  //const pageStart = Date.now();
-  //console.log("🔄 Page load started");
-
-  //const sessionStart = Date.now();
-  let session;
+  let session = null;
   try {
     session = await getServerSession(authOptions);
-    //console.log("✅ Session retrieved:", session);
   } catch (error) {
-    //console.error("❌ Error fetching session:", error);
+    console.error("❌ Error retrieving session:", error);
   }
-  //console.log(`⏱️ getServerSession() took ${Date.now() - sessionStart} ms`);
-  //console.log(`🚀 Total page load time: ${Date.now() - pageStart} ms`);
 
   return (
-    <main className="flex flex-col items-center justify-start  py-3 px-4 text-center ">
-      <AuthButtons
-        isAuthenticated={!!session}
-        userName={session?.user?.name || ""}
-      />
-      {!session && <ForceRefresh />} {/* 👈 Only auto-refresh if no session */}
+    <main className="flex flex-col items-center justify-start py-3 px-4 text-center">
+      {/* Wrap with ErrorBoundary if desired */}
+      <ErrorBoundary>
+        <AuthButtons
+          isAuthenticated={!!session}
+          userName={session?.user?.name || ""}
+        />
+        {!session && <ForceRefresh />}
+      </ErrorBoundary>
     </main>
   );
 }

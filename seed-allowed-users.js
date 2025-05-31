@@ -1,4 +1,4 @@
-// seed-allowed-users.js (CommonJS)
+// seed-allowed-users.js (CommonJS). THIS FILE CAN BE USED TO POPULATE allowedUsers COLLECTION. It is NOT used within application. To run from GIT BASH: node scripts/seed-allowed-users.js
 /*const { MongoClient } = require("mongodb");
 require("dotenv").config({ path: ".env.local" }); // Explicitly load .env.local
 
