@@ -124,6 +124,13 @@ export default function BlogList({ blogs }) {
                   >
                     🗑️ Delete
                   </button>
+
+                  <Link
+                    href={`/blog/${blog._id}/send`}
+                    className="px-3 py-1 text-sm bg-green-100 text-green-700 rounded hover:bg-green-200 transition"
+                  >
+                    📤 Send to Users
+                  </Link>
                 </div>
               )}
             </div>
