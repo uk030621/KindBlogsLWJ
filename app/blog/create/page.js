@@ -114,6 +114,7 @@ export default function CreateBlogPage() {
           author: session.user.name,
           email: session.user.email,
           imageUrl,
+          createdAt: new Date().toISOString(), // ✅ Add this line
         }),
       });
 

@@ -12,6 +12,13 @@ export default function BlogList({ blogs }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBlogs, setFilteredBlogs] = useState(blogs);
 
+  // Redirect unauthenticated users
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      window.location.href = "/auth/signin";
+    }
+  }, [status]);
+
   useEffect(() => {
     if (status === "authenticated") {
       fetch("/api/user/role")
@@ -31,11 +38,24 @@ export default function BlogList({ blogs }) {
         (blog) =>
           blog.title.toLowerCase().includes(lower) ||
           blog.content.toLowerCase().includes(lower) ||
-          blog.userName.toLowerCase().includes(lower)
+          blog.authorName.toLowerCase().includes(lower)
       );
       setFilteredBlogs(results);
     }
   }, [searchTerm, blogs]);
+
+  // Wait for session to load before rendering
+  if (status === "loading") {
+    return (
+      <p className="p-4 text-center text-gray-500">
+        Checking authentication...
+      </p>
+    );
+  }
+
+  if (status === "unauthenticated") {
+    return null; // prevent flicker before redirect
+  }
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-1">
@@ -90,7 +110,7 @@ export default function BlogList({ blogs }) {
               />
 
               <p className="text-sm text-gray-500 mb-2">
-                By <span className="font-medium">{blog.userName}</span> on{" "}
+                By <span className="font-medium">{blog.authorName}</span> on{" "}
                 {new Date(blog.createdAt).toLocaleString()}
               </p>
 

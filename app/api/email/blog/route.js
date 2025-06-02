@@ -16,6 +16,7 @@ export async function POST(req) {
     const baseUrl = process.env.BASE_URL || "http://localhost:3000"; // fallback for local dev
 
     const subject = `📰 New Blog Post: ${title}`;
+    const postUrl = `${baseUrl}/blog/${body.postId}`; // <-- add this
     const html = `
   <div style="font-family: sans-serif; line-height: 1.5;">
     <h2>${title}</h2>
@@ -25,7 +26,7 @@ export async function POST(req) {
         ? `<img src="${imageUrl}" alt="${title}" style="max-width: 600px; width: 100%; height: auto;" />`
         : ""
     }
-    <p>Read more at <a href="${baseUrl}/blog">our blog</a>.</p>
+    <p>Read more at <a href="${postUrl}">this post</a> (requires login).</p>
   </div>
 `;
     await sendEmail({

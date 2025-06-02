@@ -18,7 +18,7 @@ export default async function BlogPage() {
     _id: blog._id.toString(),
     title: blog.title,
     content: blog.content,
-    userName: blog.userName,
+    authorName: blog.authorName,
     userEmail: blog.userEmail,
     createdAt: blog.createdAt,
     imageUrl: blog.imageUrl || "", // 👈 Add this line

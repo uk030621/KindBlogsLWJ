@@ -45,6 +45,7 @@ export default function SendPostPage() {
           content: post.content,
           imageUrl: post.imageUrl || "",
           recipients: selectedRecipients,
+          postId: id,
         }),
       });
 

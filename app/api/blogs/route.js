@@ -43,7 +43,7 @@ export async function POST(req) {
     title,
     content,
     imageUrl: imageUrl || "", // optional
-    userName: session.user.name,
+    authorName: session.user.name,
     userEmail: session.user.email,
     createdAt: new Date(),
   });

@@ -6,7 +6,7 @@ import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function AuthButtons({ isAuthenticated, userName }) {
+export default function AuthButtons({ isAuthenticated, authorName }) {
   const [animateImage, setAnimateImage] = useState(false);
   const [showExamples, setShowExamples] = useState(false);
   const [loadingSignIn, setLoadingSignIn] = useState(false); // Loading for sign-in
@@ -46,7 +46,7 @@ export default function AuthButtons({ isAuthenticated, userName }) {
         /* Signed-in screen */
         <>
           <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold text-black mt-1">
-            Hello {userName}!
+            Hello {authorName}!
           </h1>
           <p className="text-lg text-black mb-3">You&apos;re signed in.</p>
           <Image

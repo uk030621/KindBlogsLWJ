@@ -24,7 +24,17 @@ export async function GET(_req, { params }) {
       });
     }
 
-    return new Response(JSON.stringify(blog), { status: 200 });
+    return new Response(
+      JSON.stringify({
+        id: blog._id.toString(),
+        title: blog.title,
+        content: blog.content,
+        imageUrl: blog.imageUrl || "",
+        authorName: blog.authorName || "", // ✅ ensures field is defined
+        createdAt: blog.createdAt || new Date(), // ✅ fallback for robustness
+      }),
+      { status: 200 }
+    );
   } catch (error) {
     return new Response(JSON.stringify({ error: "Failed to fetch blog" }), {
       status: 500,

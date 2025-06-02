@@ -20,7 +20,7 @@ export default async function Home() {
       <ErrorBoundary>
         <AuthButtons
           isAuthenticated={!!session}
-          userName={session?.user?.name || ""}
+          authorName={session?.user?.name || ""}
         />
         {!session && <ForceRefresh />}
       </ErrorBoundary>
