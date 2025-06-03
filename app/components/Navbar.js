@@ -12,6 +12,7 @@ export default function Navbar() {
   const [role, setRole] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dateTime, setDateTime] = useState(null); // Delay setting time until mounted
+  const [loadingSignOut, setLoadingSignOut] = useState(false); // Loading spinner state
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -38,20 +39,26 @@ export default function Navbar() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleSignOut = async () => {
+    setLoadingSignOut(true); // Show loading spinner
+    await signOut({ callbackUrl: "/" });
+    setLoadingSignOut(false); // Hide spinner after sign-out completes
+  };
+
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white py-8 px-2 bg-background2">
       <div className="flex justify-between items-center">
         {/* Hamburger Button with dummy placeholder on desktop */}
         <div className="ml-4">
-          {/* Mobile hamburger */}
-          <button
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-            className="md:hidden"
-          >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-          {/* Dummy placeholder on desktop */}
+          {session?.user && (
+            <button
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+              className="md:hidden"
+            >
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          )}
           <div className="hidden md:block w-6 h-6" />
         </div>
 
@@ -109,12 +116,19 @@ export default function Navbar() {
               <span className="text-sm text-gray-600 hidden sm:inline">
                 {session.user.name}
               </span>
-              <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
-              >
-                Sign Out
-              </button>
+              {loadingSignOut ? (
+                <div className="flex flex-col items-center justify-center">
+                  <p className="text-black text-sm">Signing out...</p>
+                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-red-600"></div>
+                </div>
+              ) : (
+                <button
+                  onClick={handleSignOut}
+                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
+                >
+                  Sign Out
+                </button>
+              )}
             </>
           )}
         </div>
@@ -165,20 +179,21 @@ export default function Navbar() {
           )}
           {session ? (
             <button
-              onClick={() => {
-                setMenuOpen(false);
-                signOut({ callbackUrl: "/" });
-              }}
+              onClick={handleSignOut}
               className="bg-red-500 text-white px-3 py-2 font-bold rounded hover:bg-red-600"
             >
-              Sign Out
+              {loadingSignOut ? (
+                <div className="flex flex-col items-center">
+                  <p className="text-black text-sm">Signing out...</p>
+                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-red-600"></div>
+                </div>
+              ) : (
+                "Sign Out"
+              )}
             </button>
           ) : (
             <button
-              onClick={() => {
-                setMenuOpen(false);
-                signIn("google", { callbackUrl: "/" });
-              }}
+              onClick={() => signIn("google", { callbackUrl: "/" })}
               className="text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center"
             >
               <Image
