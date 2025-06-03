@@ -49,7 +49,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50 bg-white py-8 px-2 bg-background2">
       <div className="flex justify-between items-center">
         {/* Hamburger Button with dummy placeholder on desktop */}
-        <div className="ml-4">
+        <div className="ml-4 mt-2">
           {session?.user && (
             <button
               onClick={toggleMenu}
