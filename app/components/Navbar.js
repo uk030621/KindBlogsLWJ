@@ -11,8 +11,8 @@ export default function Navbar() {
   const { data: session } = useSession();
   const [role, setRole] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dateTime, setDateTime] = useState(null); // Delay setting time until mounted
-  const [loadingSignOut, setLoadingSignOut] = useState(false); // Loading spinner state
+  const [dateTime, setDateTime] = useState(null);
+  const [loadingSignOut, setLoadingSignOut] = useState(false);
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -28,8 +28,6 @@ export default function Navbar() {
     }
   }, [session]);
 
-  const toggleMenu = () => setMenuOpen((prev) => !prev);
-
   useEffect(() => {
     const now = new Date();
     setDateTime(now);
@@ -39,17 +37,19 @@ export default function Navbar() {
     return () => clearInterval(interval);
   }, []);
 
+  // Corrected: Define toggleMenu properly
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+
   const handleSignOut = async () => {
-    setLoadingSignOut(true); // Show loading spinner
-    await signOut({ callbackUrl: "/" });
-    setLoadingSignOut(false); // Hide spinner after sign-out completes
+    setLoadingSignOut(true); // Show loading for sign-out
+    await signOut(); // Wait for sign-out to complete
   };
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white py-8 px-2 bg-background2">
       <div className="flex justify-between items-center">
-        {/* Hamburger Button with dummy placeholder on desktop */}
-        <div className="ml-4 mt-2">
+        {/* Hamburger Button */}
+        <div className="ml-4">
           {session?.user && (
             <button
               onClick={toggleMenu}
@@ -62,7 +62,7 @@ export default function Navbar() {
           <div className="hidden md:block w-6 h-6" />
         </div>
 
-        {/* Centered Site Title */}
+        {/* Site Title */}
         <div className="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black whitespace-nowrap">
           <Link className={styles.gradientText} href="/">
             SmartShare
@@ -117,9 +117,11 @@ export default function Navbar() {
                 {session.user.name}
               </span>
               {loadingSignOut ? (
-                <div className="flex flex-col items-center justify-center">
-                  <p className="text-black text-sm">Signing out...</p>
-                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-red-600"></div>
+                <div className="flex flex-col items-center justify-center min-h-[50px] mt-1">
+                  <p className="text-white text-lg mb-4">
+                    Signing out, please wait...
+                  </p>
+                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-red-600"></div>
                 </div>
               ) : (
                 <button
@@ -183,9 +185,11 @@ export default function Navbar() {
               className="bg-red-500 text-white px-3 py-2 font-bold rounded hover:bg-red-600"
             >
               {loadingSignOut ? (
-                <div className="flex flex-col items-center">
-                  <p className="text-black text-sm">Signing out...</p>
-                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-red-600"></div>
+                <div className="flex flex-col items-center justify-center min-h-[50px] mt-1">
+                  <p className="text-white text-lg">
+                    Signing out, please wait...
+                  </p>
+                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-red-600"></div>
                 </div>
               ) : (
                 "Sign Out"
