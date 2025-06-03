@@ -1,3 +1,4 @@
+//app/api/email/blog/route.js
 import { NextResponse } from "next/server";
 import { sendEmail } from "@/app/lib/sendEmail";
 
@@ -16,7 +17,8 @@ export async function POST(req) {
     const baseUrl = process.env.BASE_URL || "http://localhost:3000"; // fallback for local dev
 
     const subject = `📰 New Blog Post: ${title}`;
-    const postUrl = `${baseUrl}/blog/${body.postId}`; // <-- add this
+    const postUrl = `${baseUrl}/`;
+
     const html = `
   <div style="font-family: sans-serif; line-height: 1.5;">
     <h2>${title}</h2>
@@ -26,7 +28,8 @@ export async function POST(req) {
         ? `<img src="${imageUrl}" alt="${title}" style="max-width: 600px; width: 100%; height: auto;" />`
         : ""
     }
-    <p>Read more at <a href="${postUrl}">this post</a> (requires login).</p>
+    <p>Read more by <a href="${postUrl}">opening the app</a> (login required).</p>
+
   </div>
 `;
     await sendEmail({
