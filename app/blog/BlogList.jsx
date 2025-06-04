@@ -15,7 +15,7 @@ export default function BlogList({ blogs }) {
   // Redirect unauthenticated users
   useEffect(() => {
     if (status === "unauthenticated") {
-      window.location.href = "/auth/signin";
+      window.location.href = "/";
     }
   }, [status]);
 

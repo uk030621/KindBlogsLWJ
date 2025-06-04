@@ -51,7 +51,7 @@ export default function CreateBlogPage() {
 
   if (status === "loading") return <p className="p-4">Loading...</p>;
   if (!session) {
-    router.push("/auth/signin");
+    router.push("/");
     return null;
   }
 
