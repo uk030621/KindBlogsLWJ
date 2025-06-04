@@ -67,3 +67,15 @@ footer {
   opacity: 0.4; /* Apply opacity only to the background */
   z-index: -1; /* Place pseudo-element behind content */
 }
+
+.search-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 10px;
+}
+
+.search-container button {
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}

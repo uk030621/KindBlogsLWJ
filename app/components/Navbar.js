@@ -46,7 +46,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white py-10 px-2 bg-background2">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white py-10 px-2 bg-background2 ">
       <div className="flex justify-between items-center">
         {/* Hamburger Button */}
         <div className="ml-4">
@@ -118,7 +118,7 @@ export default function Navbar() {
               </span>
               {loadingSignOut ? (
                 <div className="flex flex-col items-center justify-center min-h-[50px] mt-1">
-                  <p className="text-white text-lg mb-4">
+                  <p className="text-black text-sm mb-4">
                     Signing out, please wait...
                   </p>
                   <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-red-600"></div>
@@ -189,7 +189,7 @@ export default function Navbar() {
                   <p className="text-white text-lg">
                     Signing out, please wait...
                   </p>
-                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-red-600"></div>
+                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-white mt-4"></div>
                 </div>
               ) : (
                 "Sign Out"

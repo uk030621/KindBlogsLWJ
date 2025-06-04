@@ -63,14 +63,20 @@ export default function BlogList({ blogs }) {
         Posts...
       </h1>
 
-      <div className="mb-6">
+      <div className="search-container relative">
         <input
           type="text"
           placeholder="Search by author, title or content..."
-          className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+          className="w-full px-4 py-2 mt-4 border bg-yellow-100 rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <button
+          className="absolute right-2 top-2 mt-4 px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          ⬆️ Top
+        </button>
       </div>
 
       {filteredBlogs.length === 0 ? (
