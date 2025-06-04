@@ -25,7 +25,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
 
   const handleSignOut = async () => {
     setLoadingSignOut(true); // Show loading for sign-out
-    await signOut(); // Wait for sign-out to complete
+    await signOut({ callbackUrl: "/" }); // Wait for sign-out to complete
   };
 
   return (
