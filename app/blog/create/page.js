@@ -13,29 +13,9 @@ export default function CreateBlogPage() {
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
-
   const [sendEmail, setSendEmail] = useState(true);
   const [allowedUsers, setAllowedUsers] = useState([]);
   const [selectedRecipients, setSelectedRecipients] = useState([]);
-
-  {
-    /*useEffect(() => {
-    if (!sendEmail) return;
-
-    fetch("/api/allowed-users")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch users");
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Fetched allowed users:", data);
-        setAllowedUsers(data.emails || []);
-      })
-      .catch((err) => {
-        console.error("Error fetching allowed users", err);
-      });
-  }, [sendEmail]);*/
-  }
 
   useEffect(() => {
     if (sendEmail) {
@@ -55,13 +35,11 @@ export default function CreateBlogPage() {
     return null;
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
+  const uploadImageWithRetry = async (maxRetries = 3) => {
+    let attempts = 0;
     let imageUrl = "";
 
-    if (imageFile) {
+    while (attempts < maxRetries) {
       try {
         setImageLoading(true);
         const signRes = await fetch("/api/cloudinary/sign", {
@@ -96,11 +74,39 @@ export default function CreateBlogPage() {
 
         const cloudinaryData = JSON.parse(debugText);
         imageUrl = cloudinaryData.secure_url;
+        break; // ✅ Exit loop on success
       } catch (err) {
-        alert("Image upload failed: " + err.message);
-        console.error("Upload error:", err);
-      } finally {
-        setImageLoading(false);
+        console.error(`Upload attempt ${attempts + 1} failed:`, err);
+        attempts++;
+        await new Promise((res) => setTimeout(res, 1000)); // ✅ Wait before retrying
+      }
+    }
+
+    setImageLoading(false);
+
+    if (!imageUrl) {
+      alert("Image upload failed after multiple attempts.");
+      throw new Error(
+        "Failed to upload image. A second attempt usually works!"
+      );
+    }
+
+    return imageUrl;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    let imageUrl = "";
+
+    if (imageFile) {
+      try {
+        imageUrl = await uploadImageWithRetry();
+      } catch (err) {
+        console.error("Final upload error:", err);
+        setLoading(false);
+        return;
       }
     }
 
@@ -114,7 +120,7 @@ export default function CreateBlogPage() {
           author: session.user.name,
           email: session.user.email,
           imageUrl,
-          createdAt: new Date().toISOString(), // ✅ Add this line
+          createdAt: new Date().toISOString(),
         }),
       });
 
@@ -193,9 +199,9 @@ export default function CreateBlogPage() {
               type="button"
               onClick={() => {
                 if (selectedRecipients.length === allowedUsers.length) {
-                  setSelectedRecipients([]); // Deselect all
+                  setSelectedRecipients([]); // ✅ Deselect all
                 } else {
-                  setSelectedRecipients([...allowedUsers]); // Select all
+                  setSelectedRecipients([...allowedUsers]); // ✅ Select all
                 }
               }}
               className="mb-2 px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300"

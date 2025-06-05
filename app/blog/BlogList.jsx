@@ -67,7 +67,7 @@ export default function BlogList({ blogs }) {
         <input
           type="text"
           placeholder="Search by author, title or content..."
-          className="w-full px-4 py-2 mt-4 border bg-yellow-100 rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+          className="w-full px-4 py-2 mt-4 border-2 border-red-600 bg-blue-100 rounded shadow-sm focus:outline-none focus:ring focus:border-red-600"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -101,6 +101,7 @@ export default function BlogList({ blogs }) {
                       width={800}
                       height={400}
                       className="rounded-lg w-full max-h-64 object-cover"
+                      unoptimized // ✅ Disables Next.js optimization
                     />
                   </a>
                 </div>

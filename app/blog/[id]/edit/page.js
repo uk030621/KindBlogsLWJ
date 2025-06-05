@@ -58,7 +58,9 @@ export default function EditBlogPage({ params }) {
 
       const debugText = await res.text();
       if (!res.ok) {
-        throw new Error(`Image upload failed: ${debugText}`);
+        throw new Error(
+          `Image upload failed. A second attempt usually works!: ${debugText}`
+        );
       }
 
       const data = JSON.parse(debugText);
