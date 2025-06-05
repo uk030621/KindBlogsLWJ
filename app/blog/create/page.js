@@ -138,8 +138,8 @@ export default function CreateBlogPage() {
           });
         }
 
-        router.push("/blog");
         router.refresh();
+        router.replace("/blog"); // ✅ Use replace instead of push
       } else {
         alert("Failed to create blog");
       }

@@ -1,4 +1,3 @@
-// middleware.js
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
@@ -7,6 +6,10 @@ export async function middleware(request) {
   const isAuthenticated = !!token;
 
   if (!isAuthenticated) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  if (request.nextUrl.pathname.startsWith("/blog") && !token) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
