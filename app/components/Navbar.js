@@ -111,6 +111,45 @@ export default function Navbar() {
               Admin
             </Link>
           )}
+          {session?.user && (
+            <div className="relative group">
+              <button className="text-gray-700 hover:text-blue-600">
+                More Options ▼
+              </button>
+              <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg w-[140px]">
+                {session?.user && (
+                  <a
+                    href="https://media-lw-jauth.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Media Library
+                  </a>
+                )}
+                {session?.user && (
+                  <a
+                    href="https://stock-portfolio-manager-psi.vercel.app/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Shares Manager
+                  </a>
+                )}
+                {session?.user && (
+                  <a
+                    href="https://utility-app-nu.vercel.app/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Handy Apps
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
           {session && (
             <>
               <span className="text-sm text-gray-600 hidden sm:inline">
