@@ -142,7 +142,11 @@ export default function Navbar() {
           menuOpen ? "max-h-[500px] py-4" : "max-h-0 py-0"
         }`}
       >
-        <div className="flex flex-col gap-4 px-6">
+        <h1 className="mt-4 font-bold text-center ">
+          {" "}
+          <span className={styles.subgradientText}>Blog Post Menu</span>
+        </h1>
+        <div className="grid grid-cols-2 gap-4 px-6  text-center">
           {session?.user && (
             <Link
               href="/"
@@ -174,42 +178,84 @@ export default function Navbar() {
             <Link
               href="/admin"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 font-semibold"
+              className="text-gray-700 hover:text-blue-600 "
             >
               Admin
             </Link>
           )}
-          {session ? (
-            <button
-              onClick={handleSignOut}
-              className="bg-red-500 text-white px-3 py-2 font-bold rounded hover:bg-red-600"
+        </div>
+        <h1 className="mt-8 font-bold text-center">
+          <span className={styles.subgradientText}>Other Applications</span>
+        </h1>
+        <p className="text-sm text-slate-400 text-center mb-3">
+          (May require registration or sign-in)
+        </p>
+        <div className="grid grid-cols-2 gap-4 px-6  text-center ">
+          {session?.user && (
+            <a
+              href="https://media-lw-jauth.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-blue-600 "
             >
-              {loadingSignOut ? (
-                <div className="flex flex-col items-center justify-center min-h-[50px] mt-1">
-                  <p className="text-white text-lg">
-                    Signing out, please wait...
-                  </p>
-                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-white mt-4"></div>
-                </div>
-              ) : (
-                "Sign Out"
-              )}
-            </button>
-          ) : (
-            <button
-              onClick={() => signIn("google", { callbackUrl: "/" })}
-              className="text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center"
-            >
-              <Image
-                src="/G.png"
-                alt="Google logo"
-                width={30}
-                height={30}
-                className="rounded-md mr-2"
-              />
-              Sign In with Google
-            </button>
+              Media Library
+            </a>
           )}
+          {session?.user && (
+            <a
+              href="https://stock-portfolio-manager-psi.vercel.app/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-blue-600 "
+            >
+              Shares Manager
+            </a>
+          )}
+          {session?.user && (
+            <a
+              href="https://utility-app-nu.vercel.app/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-blue-600 "
+            >
+              Handy Apps
+            </a>
+          )}
+          <div className="flex justify-center w-full col-span-2">
+            {" "}
+            {/* ✅ Prevents grid interference */}
+            {session ? (
+              <button
+                onClick={handleSignOut}
+                className="bg-red-500 text-white px-3 py-2 font-bold rounded hover:bg-red-600 mt-6"
+              >
+                {loadingSignOut ? (
+                  <div className="flex flex-col items-center justify-center min-h-[50px] mt-1">
+                    <p className="text-white text-lg">
+                      Signing out, please wait...
+                    </p>
+                    <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-white mt-4"></div>
+                  </div>
+                ) : (
+                  "Sign Out"
+                )}
+              </button>
+            ) : (
+              <button
+                onClick={() => signIn("google", { callbackUrl: "/" })}
+                className="text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center"
+              >
+                <Image
+                  src="/G.png"
+                  alt="Google logo"
+                  width={30}
+                  height={30}
+                  className="rounded-md mr-2"
+                />
+                Sign In with Google
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </nav>
