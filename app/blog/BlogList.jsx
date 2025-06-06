@@ -44,6 +44,15 @@ export default function BlogList({ blogs }) {
     }
   }, [searchTerm, blogs]);
 
+  const [postCounts, setPostCounts] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/user-post-counts")
+      .then((res) => res.json())
+      .then((data) => setPostCounts(data))
+      .catch((err) => console.error("Error fetching post counts", err));
+  }, []);
+
   // Wait for session to load before rendering
   if (status === "loading") {
     return (
@@ -59,9 +68,29 @@ export default function BlogList({ blogs }) {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-2">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6 text-slate-700">
+      {/*<h1 className="text-2xl md:text-3xl font-bold mb-6 text-slate-700">
         Posts...
-      </h1>
+      </h1>*/}
+
+      <div className="mb-4">
+        <label className="text-lg font-bold ml-5">
+          Posts Submitted by Group Members:
+        </label>
+        <select
+          className="w-full border rounded px-4 py-2"
+          defaultValue="" // ✅ Default empty selection
+        >
+          <option value="" disabled>
+            View Post Counts
+          </option>{" "}
+          {/* ✅ Correct */}
+          {postCounts.map((user) => (
+            <option key={user._id} value={user._id}>
+              {user._id} - {user.count} posts
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="search-container relative">
         <input
