@@ -63,7 +63,7 @@ export default function Navbar() {
         </div>
 
         {/* Site Title */}
-        <div className="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black whitespace-nowrap">
+        <div className="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black whitespace-nowrap mt-4">
           <Link className={styles.gradientText} href="/">
             SmartShare
           </Link>
@@ -86,70 +86,75 @@ export default function Navbar() {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-4 ml-auto mr-10">
           {session?.user && (
-            <Link href="/" className="text-gray-700 hover:text-blue-600">
-              Home
-            </Link>
+            <div className="relative group">
+              <button className="text-gray-700 hover:text-blue-600">
+                Blog Post Menu ▼
+              </button>
+              <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg w-[120px]">
+                <Link
+                  href="/"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Home
+                </Link>
+                <Link
+                  href="/blog"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Posts
+                </Link>
+                <Link
+                  href="/blog/create"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Create
+                </Link>
+                {role === "admin" && (
+                  <Link
+                    href="/admin"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-semibold"
+                  >
+                    Admin
+                  </Link>
+                )}
+              </div>
+            </div>
           )}
-          {session?.user && (
-            <Link href="/blog" className="text-gray-700 hover:text-blue-600">
-              Posts
-            </Link>
-          )}
-          {session?.user && (
-            <Link
-              href="/blog/create"
-              className="text-gray-700 hover:text-blue-600"
-            >
-              Create
-            </Link>
-          )}
-          {role === "admin" && (
-            <Link
-              href="/admin"
-              className="text-gray-700 hover:text-blue-600 font-semibold"
-            >
-              Admin
-            </Link>
-          )}
+
           {session?.user && (
             <div className="relative group">
               <button className="text-gray-700 hover:text-blue-600">
                 More Options ▼
               </button>
-              <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg w-[140px]">
-                {session?.user && (
-                  <a
-                    href="https://media-lw-jauth.vercel.app/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    Media Library
-                  </a>
-                )}
-                {session?.user && (
-                  <a
-                    href="https://stock-portfolio-manager-psi.vercel.app/login"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    Shares Manager
-                  </a>
-                )}
-                {session?.user && (
-                  <a
-                    href="https://utility-app-nu.vercel.app/login"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    Handy Apps
-                  </a>
-                )}
+              <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg w-[160px]">
+                <a
+                  href="https://media-lw-jauth.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Media Library
+                </a>
+                <a
+                  href="https://stock-portfolio-manager-psi.vercel.app/login"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Shares Manager
+                </a>
+                <a
+                  href="https://utility-app-nu.vercel.app/login"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Handy Apps
+                </a>
               </div>
             </div>
           )}
+
           {session && (
             <>
               <span className="text-sm text-gray-600 hidden sm:inline">
@@ -181,16 +186,16 @@ export default function Navbar() {
           menuOpen ? "max-h-[500px] py-4" : "max-h-0 py-0"
         }`}
       >
-        <h1 className="mt-4 font-bold text-center ">
+        <h1 className="mt-10 font-bold text-center mb-4">
           {" "}
           <span className={styles.subgradientText}>Blog Post Menu</span>
         </h1>
-        <div className="grid grid-cols-2 gap-4 px-6  text-center">
+        <div className="grid grid-cols-2 gap-3 px-6  text-center">
           {session?.user && (
             <Link
               href="/"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
             >
               Home
             </Link>
@@ -199,7 +204,7 @@ export default function Navbar() {
             <Link
               href="/blog"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
             >
               Posts
             </Link>
@@ -208,7 +213,7 @@ export default function Navbar() {
             <Link
               href="/blog/create"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
             >
               Create
             </Link>
@@ -217,7 +222,7 @@ export default function Navbar() {
             <Link
               href="/admin"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 "
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
             >
               Admin
             </Link>
@@ -229,13 +234,13 @@ export default function Navbar() {
         <p className="text-sm text-slate-400 text-center mb-3">
           (May require registration or sign-in)
         </p>
-        <div className="grid grid-cols-2 gap-4 px-6  text-center ">
+        <div className="grid grid-cols-2 gap-3 px-6 text-center ">
           {session?.user && (
             <a
               href="https://media-lw-jauth.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-blue-600 "
+              className="text-gray-700 hover:text-blue-600 bg-pink-200 rounded-full "
             >
               Media Library
             </a>
@@ -245,7 +250,7 @@ export default function Navbar() {
               href="https://stock-portfolio-manager-psi.vercel.app/login"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-blue-600 "
+              className="text-gray-700 hover:text-blue-600 bg-pink-200 rounded-full"
             >
               Shares Manager
             </a>
@@ -255,7 +260,7 @@ export default function Navbar() {
               href="https://utility-app-nu.vercel.app/login"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-blue-600 "
+              className="text-gray-700 hover:text-blue-600 bg-pink-200 rounded-full"
             >
               Handy Apps
             </a>
