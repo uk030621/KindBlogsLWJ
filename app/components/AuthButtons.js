@@ -73,25 +73,23 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
       ) : (
         /* Sign-in screen */
         <>
-          <div className="w-full max-w-4xl mx-auto shadow-lg rounded-lg p-4 sm:p-8 md:p-10 lg:p-12 bg-background">
-            <p className=" text-black mb-2 mt-1 text-center sm:text-left">
-              <strong>Tips & Tales</strong> is a space for sharing{" "}
-              <span className="text-slate-700 font-semibold underline">
-                practical wisdom
-              </span>{" "}
-              and
-              <span className="text-slate-700 font-semibold underline">
-                {" "}
-                engaging stories
-              </span>
-              . Whether you have a life-changing tip to help others or a
-              captivating tale that inspires, entertains, or teaches a lesson,
-              this is where your experiences come to life.
-              <br />
-              <span className="text-slate-700 text-sm block mt-4 text-center sm:text-left">
-                Sign in below to get started!
-              </span>
-            </p>
+          <div className="w-full flex justify-center items-center py-6">
+            <Image
+              src="/tips-and-tales.jpg" // ✅ Replace with your actual image path
+              alt="Tips & Tales - Share your wisdom and stories"
+              width={500} // ✅ Adjust width as needed
+              height={400} // ✅ Adjust height as needed
+              className="rounded-lg shadow-lg object-cover max-w-full h-auto opacity-80"
+            />
+          </div>
+          <div className="w-full flex justify-center items-center ">
+            <Image
+              src="/impressive.jpg" // ✅ Replace with your actual image path
+              alt="Tips & Tales - Share your wisdom and stories"
+              width={300} // ✅ Adjust width as needed
+              height={200} // ✅ Adjust height as needed
+              className="rounded-full shadow-lg object-cover max-w-full h-auto"
+            />
           </div>
 
           <div className="flex flex-col items-center justify-center min-h-[50px] w-full">
