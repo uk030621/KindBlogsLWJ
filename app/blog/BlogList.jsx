@@ -73,7 +73,7 @@ export default function BlogList({ blogs }) {
       </h1>*/}
 
       <div className="mb-4">
-        <label className="text-lg font-bold ml-8">
+        <label className="text-lg font-bold ml-5">
           Group member post count:
         </label>
         <select

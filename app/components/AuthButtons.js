@@ -73,16 +73,6 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
       ) : (
         /* Sign-in screen */
         <>
-          <div className="w-full flex justify-center items-center mt-4 ">
-            <Image
-              src="/impressive.jpg" // ✅ Replace with your actual image path
-              alt="Tips & Tales - Share your wisdom and stories"
-              width={150} // ✅ Adjust width as needed
-              height={100} // ✅ Adjust height as needed
-              unoptimized // ✅ Disables Next.js optimization
-              className="rounded-full shadow-lg object-cover max-w-full h-auto"
-            />
-          </div>
           <div className="w-full flex justify-center items-center py-6">
             <Image
               src="/tips-and-tales.jpg" // ✅ Replace with your actual image path
@@ -90,23 +80,30 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
               width={500} // ✅ Adjust width as needed
               height={400} // ✅ Adjust height as needed
               unoptimized // ✅ Disables Next.js optimization
-              className="rounded-lg shadow-lg object-cover max-w-full h-auto opacity-80"
+              className="rounded-lg shadow-2xl object-cover max-w-full h-auto "
             />
           </div>
 
           <div className="flex flex-col items-center justify-center min-h-[50px] w-full">
             <button
               onClick={handleSignIn}
-              className="ml-4 text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center mt-6"
+              className="ml-0 text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center mt-6"
             >
               <Image
                 src="/G.png"
                 alt="Google logo"
-                width={30}
-                height={30}
+                width={80}
+                height={80}
                 className="rounded-md mr-2"
               />
               Sign In with Google
+              <Image
+                src="/tips.png"
+                alt="tips icon"
+                width={80}
+                height={80}
+                className="rounded-md ml-2"
+              />
             </button>
           </div>
 
