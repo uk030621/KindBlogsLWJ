@@ -73,22 +73,24 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
       ) : (
         /* Sign-in screen */
         <>
+          <div className="w-full flex justify-center items-center mt-4 ">
+            <Image
+              src="/impressive.jpg" // ✅ Replace with your actual image path
+              alt="Tips & Tales - Share your wisdom and stories"
+              width={150} // ✅ Adjust width as needed
+              height={100} // ✅ Adjust height as needed
+              unoptimized // ✅ Disables Next.js optimization
+              className="rounded-full shadow-lg object-cover max-w-full h-auto"
+            />
+          </div>
           <div className="w-full flex justify-center items-center py-6">
             <Image
               src="/tips-and-tales.jpg" // ✅ Replace with your actual image path
               alt="Tips & Tales - Share your wisdom and stories"
               width={500} // ✅ Adjust width as needed
               height={400} // ✅ Adjust height as needed
+              unoptimized // ✅ Disables Next.js optimization
               className="rounded-lg shadow-lg object-cover max-w-full h-auto opacity-80"
-            />
-          </div>
-          <div className="w-full flex justify-center items-center ">
-            <Image
-              src="/impressive.jpg" // ✅ Replace with your actual image path
-              alt="Tips & Tales - Share your wisdom and stories"
-              width={300} // ✅ Adjust width as needed
-              height={200} // ✅ Adjust height as needed
-              className="rounded-full shadow-lg object-cover max-w-full h-auto"
             />
           </div>
 

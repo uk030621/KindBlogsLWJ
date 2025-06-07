@@ -105,7 +105,7 @@ export async function DELETE(_req, { params }) {
 
   if (!isOwner && !isMod) return new Response("Forbidden", { status: 403 });
 
-  console.log("🧩 DELETE: Blog image URL found:", blog.imageUrl);
+  //console.log("🧩 DELETE: Blog image URL found:", blog.imageUrl);
 
   if (blog.imageUrl) {
     const result = await deleteFromCloudinary(blog.imageUrl);

@@ -73,11 +73,11 @@ export default function BlogList({ blogs }) {
       </h1>*/}
 
       <div className="mb-4">
-        <label className="text-lg font-bold ml-5">
-          Posts Submitted by Group Members:
+        <label className="text-lg font-bold ml-8">
+          Group member post count:
         </label>
         <select
-          className="w-full border rounded px-4 py-2"
+          className="w-[325px] border rounded ml-4 px-4 py-2"
           defaultValue="" // ✅ Default empty selection
         >
           <option value="" disabled>
