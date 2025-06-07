@@ -65,7 +65,7 @@ export default function Navbar() {
         {/* Site Title */}
         <div className="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black whitespace-nowrap mt-4">
           <Link className={styles.gradientText} href="/">
-            SmartShare
+            Tips & Tales
           </Link>
           <div className="flex gap-1 mt-2 justify-center">
             {dateTime ? (

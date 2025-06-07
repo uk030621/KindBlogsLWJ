@@ -29,7 +29,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
   };
 
   return (
-    <div className="mx-auto px-4 py-4 pt-4">
+    <div className="mx-auto px-4 py-4 pt-0">
       {/* Show loading screen when signing in */}
       {loadingSignIn && !isAuthenticated ? (
         <div className="flex flex-col items-center justify-center min-h-[50px] mt-1">
@@ -60,7 +60,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
             style={{ width: "100%", height: "auto" }}
           />
           <p className="text-basic text-black mb-3">
-            Practical Tips from Your Group.
+            Tips & Tales from Your Group.
           </p>
           {/* Sign-Out Button */}
           <button
@@ -73,18 +73,31 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
       ) : (
         /* Sign-in screen */
         <>
-          <p className="text-lg text-black mb-6 mt-1">
-            Share your tips, pics, and links.
-            <br />
-            <span className="text-slate-700 text-sm">
-              Sign in below to get started!
-            </span>
-          </p>
+          <div className="w-full max-w-4xl mx-auto shadow-lg rounded-lg p-4 sm:p-8 md:p-10 lg:p-12 bg-background">
+            <p className=" text-black mb-2 mt-1 text-center sm:text-left">
+              <strong>Tips & Tales</strong> is a space for sharing{" "}
+              <span className="text-slate-700 font-semibold underline">
+                practical wisdom
+              </span>{" "}
+              and
+              <span className="text-slate-700 font-semibold underline">
+                {" "}
+                engaging stories
+              </span>
+              . Whether you have a life-changing tip to help others or a
+              captivating tale that inspires, entertains, or teaches a lesson,
+              this is where your experiences come to life.
+              <br />
+              <span className="text-slate-700 text-sm block mt-4 text-center sm:text-left">
+                Sign in below to get started!
+              </span>
+            </p>
+          </div>
 
           <div className="flex flex-col items-center justify-center min-h-[50px] w-full">
             <button
               onClick={handleSignIn}
-              className="ml-4 text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center"
+              className="ml-4 text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center mt-6"
             >
               <Image
                 src="/G.png"
@@ -110,89 +123,34 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
             </Link>
           </p>
 
-          {/* Dropdown for SmartShare Messages & Links */}
+          {/* Dropdown for Tips & Tales Messages & Links */}
           <div className="mt-6">
             <button
               onClick={() => setShowExamples(!showExamples)}
               className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded"
             >
-              {showExamples ? "Hide Examples" : "Show Examples"}
+              {showExamples ? "Hide Guide" : "Guide"}
             </button>
 
             {showExamples && (
-              <div className="mt-4 p-4 border rounded bg-white shadow-lg text-black">
+              <div className="mt-4 p-4 border rounded bg-background shadow-lg text-black">
                 <p className="text-container">
-                  🕒{" "}
-                  <strong>10 Time-Saving Hacks for Busy Professionals:</strong>{" "}
-                  A list of practical tips to boost productivity.{" "}
-                  <a
-                    className="text-blue-600 underline"
-                    href="https://zeenews.india.com/web-stories/lifestyle/10-time-saving-hacks-for-busy-professionals-2746737"
-                    target="_blank"
-                  >
-                    Examples
-                  </a>
+                  <strong>✨ Got a great hack?</strong> Share the tricks that
+                  make life easier—whether it&apos;s mastering productivity,
+                  traveling smarter, or navigating challenges.{" "}
                 </p>
 
                 <p className="text-container">
-                  🦉{" "}
-                  <strong>
-                    How to Organize Your Workspace for Maximum Efficiency:
-                  </strong>{" "}
-                  A step-by-step guide to decluttering and optimizing your work
-                  environment.{" "}
-                  <a
-                    className="text-blue-600 underline"
-                    href="https://www.microsoft.com/en-us/microsoft-365-life-hacks/organization/how-to-organize-your-desk-for-maximum-productivity"
-                    target="_blank"
-                  >
-                    Examples
-                  </a>
+                  {" "}
+                  <strong>📖 Have a story worth telling?</strong> From funny
+                  misadventures to meaningful encounters, let your experiences
+                  leave a lasting impact.{" "}
                 </p>
 
                 <p className="text-container">
-                  💰{" "}
-                  <strong>
-                    The Best Budgeting Tips for Financial Success:
-                  </strong>{" "}
-                  A breakdown of smart money management strategies.{" "}
-                  <a
-                    className="text-blue-600 underline"
-                    href="https://bethebudget.com/budgeting-tips/"
-                    target="_blank"
-                  >
-                    Examples
-                  </a>
-                </p>
-
-                <p className="text-container">
-                  🥗{" "}
-                  <strong>
-                    Quick and Healthy Meal Prep Ideas for the Week:
-                  </strong>{" "}
-                  A collection of easy-to-follow meal prep tips.{" "}
-                  <a
-                    className="text-blue-600 underline"
-                    href="https://www.eatingwell.com/article/7940198/healthy-meal-prep-ideas/"
-                    target="_blank"
-                  >
-                    Examples
-                  </a>
-                </p>
-
-                <p className="text-container">
-                  💻{" "}
-                  <strong>
-                    Essential Tech Tools to Streamline Your Workflow:
-                  </strong>{" "}
-                  A curated list of apps and software that enhance productivity.{" "}
-                  <a
-                    className="text-blue-600 underline"
-                    href="https://www.businesstechweekly.com/apps-and-tools/applications-and-tools/best-workflow-apps/"
-                    target="_blank"
-                  >
-                    Examples
-                  </a>
+                  Post your <strong>tips</strong> for others to learn from.
+                  Share your <strong>tales</strong> for others to relate to.
+                  Let’s inspire, laugh, and grow together!{" "}
                 </p>
               </div>
             )}
