@@ -112,9 +112,17 @@ export default function Navbar() {
                 {role === "admin" && (
                   <Link
                     href="/admin"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-semibold"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 "
                   >
                     Admin
+                  </Link>
+                )}
+                {role === "admin" && (
+                  <Link
+                    href="/admin/submissions"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 "
+                  >
+                    Requests
                   </Link>
                 )}
               </div>
@@ -225,6 +233,15 @@ export default function Navbar() {
               className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
             >
               Admin
+            </Link>
+          )}
+          {role === "admin" && (
+            <Link
+              href="/admin/submissions"
+              onClick={() => setMenuOpen(false)}
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
+            >
+              Requests
             </Link>
           )}
         </div>

@@ -84,6 +84,13 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
             />
           </div>
 
+          <Link
+            className="font-semibold py-4 hover:text-red-600 hover:underline"
+            href="/request-access"
+          >
+            Want to join? - Request Access
+          </Link>
+
           <div className="flex flex-col items-center justify-center min-h-[50px] w-full">
             <button
               onClick={handleSignIn}
