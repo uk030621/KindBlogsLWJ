@@ -69,7 +69,10 @@ export default function AdminSubmissions() {
           </thead>
           <tbody>
             {submissions.map((sub) => (
-              <tr key={sub._id} className="border text-sm md:text-base">
+              <tr
+                key={sub._id}
+                className="border text-sm text-center md:text-base"
+              >
                 <td className="p-2">{sub.name}</td>
                 <td className="p-2">
                   <a
@@ -81,7 +84,7 @@ export default function AdminSubmissions() {
                 </td>
                 <td className="p-2">{sub.justification}</td>
                 <td className="p-2 font-semibold">{sub.status}</td>
-                <td className="p-2 flex flex-col md:flex-row space-y-2 md:space-x-2">
+                <td className="p-2 flex flex-col md:flex-row space-y-2 md:space-x-4 justify-center">
                   <button
                     onClick={() =>
                       handleStatusChange(sub._id, "given", sub.email)

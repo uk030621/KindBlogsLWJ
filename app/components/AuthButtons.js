@@ -99,22 +99,22 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
               <Image
                 src="/G.png"
                 alt="Google logo"
-                width={80}
-                height={80}
+                width={50}
+                height={50}
                 className="rounded-md mr-2"
               />
               Sign In with Google
               <Image
                 src="/tips.png"
                 alt="tips icon"
-                width={80}
-                height={80}
+                width={50}
+                height={50}
                 className="rounded-md ml-2"
               />
             </button>
           </div>
 
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-base text-gray-600">
             Don&apos;t have a Google account?{" "}
             <Link
               href="https://support.google.com/accounts/answer/27441?hl=en"
@@ -131,7 +131,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
           <div className="mt-6">
             <button
               onClick={() => setShowExamples(!showExamples)}
-              className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded"
+              className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded w-[310px]"
             >
               {showExamples ? "Hide Guide" : "Guide"}
             </button>

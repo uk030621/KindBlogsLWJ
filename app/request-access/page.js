@@ -54,7 +54,7 @@ export default function RequestAccess() {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-10 p-6 shadow-lg rounded bg-background">
+    <div className="max-w-lg mx-auto mt-4 p-6 shadow-lg rounded bg-background">
       <h2 className="text-2xl font-bold text-center mb-4">
         Request Access or{" "}
         <a href="/" className="text-red-500 hover:underline">
