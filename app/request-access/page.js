@@ -25,6 +25,7 @@ export default function RequestAccess() {
   };
 
   const [requestCount, setRequestCount] = useState(0);
+  const [showGuidelines, setShowGuidelines] = useState(false); // Toggle dropdown
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,13 +54,59 @@ export default function RequestAccess() {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-10 p-6  shadow-md rounded bg-background">
+    <div className="max-w-lg mx-auto mt-10 p-6 shadow-lg rounded bg-background">
       <h2 className="text-2xl font-bold text-center mb-4">
         Request Access or{" "}
         <a href="/" className="text-red-500 hover:underline">
           Exit
         </a>
       </h2>
+
+      {/* Community Guidelines Dropdown */}
+      <div className="mb-6">
+        <button
+          onClick={() => setShowGuidelines(!showGuidelines)}
+          className="w-full bg-gray-800 text-white py-2 rounded hover:bg-gray-700"
+        >
+          Community Guidelines {showGuidelines ? "▲" : "▼"}
+        </button>
+        {showGuidelines && (
+          <div className="mt-4 p-4 bg-gray-100 rounded text-gray-800 text-sm">
+            <h3 className="font-bold text-lg mb-2">
+              Creating a Safe & Supportive Space
+            </h3>
+            <p className="mb-2">
+              This platform is committed to maintaining a{" "}
+              <strong>positive, respectful, and welcoming environment.</strong>
+            </p>
+            <p className="text-red-500 font-semibold">
+              🚫 What is NOT allowed?
+            </p>
+            <ul className="list-disc ml-6 mb-2">
+              <li>Unsavoury, harmful, or toxic content</li>
+              <li>Pornographic material</li>
+              <li>Hateful, offensive, or damaging interactions</li>
+            </ul>
+            <p className="text-green-500 font-semibold">
+              ✅ What is encouraged?
+            </p>
+            <ul className="list-disc ml-6">
+              <li>Helpful, thoughtful contributions</li>
+              <li>Kindness and support for others</li>
+              <li>Engagement that uplifts rather than harms</li>
+            </ul>
+            <p className="mt-4 text-sm text-gray-600">
+              ⚠️ Violating these principles **will result in immediate access
+              withdrawal** at the discretion of the site/application owner.
+            </p>
+            <p className="mt-4 text-sm text-gray-600">
+              There are no likes, rewards, or incentives — just an opportunity
+              to make the world a little kinder. Thank you for helping keep this
+              platform safe and meaningful for everyone.
+            </p>
+          </div>
+        )}
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
