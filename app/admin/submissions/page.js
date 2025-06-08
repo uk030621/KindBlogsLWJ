@@ -13,18 +13,43 @@ export default function AdminSubmissions() {
     fetchSubmissions();
   }, []);
 
-  const handleStatusChange = async (id, newStatus) => {
-    await fetch(`/api/submissions/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: newStatus }),
-    });
+  const handleStatusChange = async (id, newStatus, email) => {
+    try {
+      // Update submission status
+      const res = await fetch(`/api/submissions/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
 
-    setSubmissions(
-      submissions.map((sub) =>
-        sub._id === id ? { ...sub, status: newStatus } : sub
-      )
-    );
+      if (!res.ok) {
+        alert("Failed to update submission.");
+        return;
+      }
+
+      // If status is "given", add user to allowedUsers
+      if (newStatus === "given") {
+        const addUserRes = await fetch("/api/allowedUsers/addfromrequests", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        if (!addUserRes.ok) {
+          alert("Failed to add allowed user.");
+          return;
+        }
+      }
+
+      // Update local state
+      setSubmissions(
+        submissions.map((sub) =>
+          sub._id === id ? { ...sub, status: newStatus } : sub
+        )
+      );
+    } catch (error) {
+      console.error("Error updating submission:", error);
+    }
   };
 
   return (
@@ -58,14 +83,16 @@ export default function AdminSubmissions() {
                 <td className="p-2 font-semibold">{sub.status}</td>
                 <td className="p-2 flex flex-col md:flex-row space-y-2 md:space-x-2">
                   <button
-                    onClick={() => handleStatusChange(sub._id, "given")}
-                    className=" hover:bg-green-200 transition rounded-full text-lg"
+                    onClick={() =>
+                      handleStatusChange(sub._id, "given", sub.email)
+                    }
+                    className="hover:bg-green-200 transition rounded-full text-lg"
                   >
                     👍
                   </button>
                   <button
                     onClick={() => handleStatusChange(sub._id, "declined")}
-                    className="hover:bg-red-200 transition rounded-full text-lg "
+                    className="hover:bg-red-200 transition rounded-full text-lg"
                   >
                     👎🏾
                   </button>
