@@ -10,11 +10,10 @@ export default function PostCountDisplay() {
   useEffect(() => {
     const fetchPostCounts = async () => {
       try {
-        const apiBaseUrl =
-          process.env.NEXT_PUBLIC_URL || "http://localhost:3000"; // ✅ Dynamic base URL
+        const apiBaseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000"; // ✅ Dynamic base URL
         console.log(
           "API Base URL:",
-          process.env.NEXT_PUBLIC_URL || "http://localhost:3000"
+          process.env.NEXTAUTH_URL || "http://localhost:3000"
         );
         const response = await fetch(`${apiBaseUrl}/api/user-post-counts`, {
           cache: "no-store",
