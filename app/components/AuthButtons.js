@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { signIn, signOut } from "next-auth/react";
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,7 +9,8 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
   const [animateImage, setAnimateImage] = useState(false);
   const [showExamples, setShowExamples] = useState(false);
   const [loadingSignIn, setLoadingSignIn] = useState(false); // Loading for sign-in
-  const [loadingSignOut, setLoadingSignOut] = useState(false); // Loading for sign-
+  const [loadingSignOut, setLoadingSignOut] = useState(false); // Loading for sign-out
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -73,6 +73,58 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
       ) : (
         /* Sign-in screen */
         <>
+          <div className="max-w-xl mx-auto mt-8">
+            {/* Dropdown Trigger */}
+            <button
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg shadow-md text-lg font-semibold hover:opacity-90 transition duration-300"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? "Hide Invitation" : "Join Our Space 💫"}
+            </button>
+
+            {/* Dropdown Content */}
+            {isOpen && (
+              <div className="mt-4 p-6 bg-white shadow-lg rounded-lg border border-gray-200">
+                <h2 className="text-xl font-bold text-gray-800 mb-3">
+                  Join Me in Creating a “Nice Space” for Kindness and Connection
+                </h2>
+                <p className="text-gray-600 leading-relaxed">
+                  Hey everyone,
+                  <br />
+                  <br />I know we all have our go-to apps for staying connected,
+                  but I’ve been working on something special—a space designed
+                  for exchanging kind and helpful tips, stories, and support in
+                  a way that feels intentional and uplifting.
+                </p>
+                <p className="text-gray-600 mt-3">
+                  I’d love for you to help me kickstart this journey. Your
+                  engagement would mean the world, not just to test things out
+                  but to shape a space where encouragement and positivity come
+                  first.
+                </p>
+                <p className="text-gray-600 mt-3">
+                  It’s easy to join—just fill out the request for access form,
+                  and we’ll dive in together. Give it a try, and let’s make
+                  something truly valuable for our little circle!
+                </p>
+                <p className="text-gray-700 mt-4 font-semibold">
+                  Thank you for indulging me on this—your presence will make all
+                  the difference.
+                </p>
+
+                {/* Call to Action Button */}
+                <div className="mt-6 text-center">
+                  <a
+                    href="/request-access"
+                    className="bg-blue-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-300"
+                  >
+                    Request Access 🚀
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="w-full flex justify-center items-center py-6">
             <Image
               src="/tips-and-tales.jpg" // ✅ Replace with your actual image path
@@ -84,12 +136,12 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
             />
           </div>
 
-          <Link
+          {/*<Link
             className="font-semibold py-4 hover:text-red-600 hover:underline"
             href="/request-access"
           >
             Want to join? - Request Access
-          </Link>
+          </Link>*/}
 
           <div className="flex flex-col items-center justify-center min-h-[50px] w-full">
             <button
