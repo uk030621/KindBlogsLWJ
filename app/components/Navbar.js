@@ -63,7 +63,7 @@ export default function Navbar() {
         </div>
 
         {/* Site Title */}
-        <div className="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black whitespace-nowrap mt-4">
+        <div className="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black whitespace-nowrap mt-10">
           <Link className={`${styles.gradientText} p-2`} href="/">
             Tips & Tales
           </Link>

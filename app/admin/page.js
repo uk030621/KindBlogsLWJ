@@ -6,6 +6,7 @@ import { getUserRole } from "@/app/lib/getUserRole";
 import { redirect } from "next/navigation";
 import UserTable from "../components/UserTable";
 import AllowedUsersList from "../components/AllowedUserList";
+import PostCountDisplay from "../components/PostCountDisplay"; // ✅ Import c
 
 export const dynamic = "force-dynamic";
 
@@ -30,10 +31,12 @@ export default async function AdminPage() {
   );
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-2 ">
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-2 mt-4 ">
       <h1 className="text-2xl font-bold mb-4 text-black text-center">
         Admin Dashboard
       </h1>
+      {/* Post Counts Component (Client-Side) */}
+      <PostCountDisplay /> {/* ✅ Insert client component separately */}
       <h2 className="text-lg text-slate-800 font-semibold mb-2 ">
         Allowed Sign-In Emails
       </h2>
