@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import LinkedText from "./components/LinkedText"; // ✅ keep this import only
 import Image from "next/image";
 
+export const dynamic = "force-dynamic"; // 🔥 Ensures fresh data on Vercel
+
 export default function BlogList({ blogs }) {
   const { data: session, status } = useSession();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -47,7 +49,7 @@ export default function BlogList({ blogs }) {
   const [postCounts, setPostCounts] = useState([]);
 
   useEffect(() => {
-    fetch("/api/user-post-counts")
+    fetch("/api/user-post-counts", { cache: "no-store" }) // 🔥 Prevents stale cache
       .then((res) => res.json())
       .then((data) => setPostCounts(data))
       .catch((err) => console.error("Error fetching post counts", err));
