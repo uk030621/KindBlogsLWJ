@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+export const dynamic = "force-dynamic";
+
 export default function PostCountDisplay() {
   const [postCounts, setPostCounts] = useState([]);
 
@@ -9,6 +11,10 @@ export default function PostCountDisplay() {
     const fetchPostCounts = async () => {
       try {
         const apiBaseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000"; // ✅ Dynamic base URL
+        console.log(
+          "API Base URL:",
+          process.env.NEXTAUTH_URL || "http://localhost:3000"
+        );
         const response = await fetch(`${apiBaseUrl}/api/user-post-counts`, {
           cache: "no-store",
         });
