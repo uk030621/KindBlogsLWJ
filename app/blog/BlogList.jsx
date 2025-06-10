@@ -74,7 +74,7 @@ export default function BlogList({ blogs }) {
         Posts...
       </h1>*/}
 
-      <div className="mb-4">
+      {/*<div className="mb-4">
         <label className="text-lg font-bold ml-5">
           Group member post count:
         </label>
@@ -86,13 +86,13 @@ export default function BlogList({ blogs }) {
             View Post Counts
           </option>{" "}
           {/* ✅ Correct */}
-          {postCounts.map((user) => (
+      {/*</div>{postCounts.map((user) => (
             <option key={user._id} value={user._id}>
               {user._id} - {user.count} posts
             </option>
           ))}
         </select>
-      </div>
+      </div>*/}
 
       <div className="search-container relative">
         <input

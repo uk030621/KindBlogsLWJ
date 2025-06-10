@@ -71,7 +71,7 @@ export default function RequestAccess() {
           Community Guidelines {showGuidelines ? "▲" : "▼"}
         </button>
         {showGuidelines && (
-          <div className="mt-4 p-4 bg-gray-100 rounded text-gray-800 text-sm">
+          <div className=" p-4 bg-gray-100 rounded text-gray-800 text-sm">
             <h3 className="font-bold text-lg mb-2">
               Creating a Safe & Supportive Space
             </h3>
@@ -96,8 +96,8 @@ export default function RequestAccess() {
               <li>Engagement that uplifts rather than harms</li>
             </ul>
             <p className="mt-4 text-sm text-gray-600">
-              ⚠️ Violating these principles **will result in immediate access
-              withdrawal** at the discretion of the site/application owner.
+              ⚠️ Violating these principles will result in immediate access
+              withdrawal at the discretion of the site/application owner.
             </p>
             <p className="mt-4 text-sm text-gray-600">
               There are no likes, rewards, or incentives — just an opportunity

@@ -84,16 +84,16 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
 
             {/* Dropdown Content */}
             {isOpen && (
-              <div className="mt-4 p-6 bg-white shadow-lg rounded-lg border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-800 mb-3">
+              <div className="mt-4 p-6  shadow-lg rounded-lg border border-gray-200 bg-background">
+                <h2 className="text-xl font-bold text-gray-800">
                   Join Me in Creating a “Nice Space” for Kindness and Connection
                 </h2>
                 <div className="w-full flex justify-center items-center py-6">
                   <Image
-                    src="/lwj.jpg" // ✅ Replace with your actual image path
+                    src="/inclusivity.png" // ✅ Replace with your actual image path
                     alt="Tips & Tales - Share your wisdom and stories"
-                    width={90} // ✅ Adjust width as needed
-                    height={120} // ✅ Adjust height as needed
+                    width={250} // ✅ Adjust width as needed
+                    height={250} // ✅ Adjust height as needed
                     unoptimized // ✅ Disables Next.js optimization
                     className="rounded-lg shadow-2xl object-cover max-w-full h-auto "
                   />
@@ -118,8 +118,8 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
                   something truly valuable for our little circle!
                 </p>
                 <p className="text-gray-700 mt-4 font-semibold">
-                  Thank you for indulging me on this—your presence will make all
-                  the difference.
+                  Thank you for indulging me on this — your presence will make
+                  all the difference.
                 </p>
 
                 {/* Call to Action Button */}

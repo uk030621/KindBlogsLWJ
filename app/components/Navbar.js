@@ -149,7 +149,7 @@ export default function Navbar() {
                   rel="noopener noreferrer"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                 >
-                  Shares Manager
+                  Stock Portfolio
                 </a>
                 <a
                   href="https://utility-app-nu.vercel.app/login"
@@ -269,7 +269,7 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="text-gray-700 hover:text-blue-600 bg-pink-200 rounded-full"
             >
-              Shares Manager
+              Stock Portfolio
             </a>
           )}
           {session?.user && (
