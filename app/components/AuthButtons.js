@@ -113,10 +113,10 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
                   first.
                 </p>
                 <p className="text-gray-600 mt-3">
-                  It’s easy to join via using your gmail address — just fill out
-                  the request for access form, and we’ll dive in together. Give
-                  it a try, and let’s make something truly valuable for our
-                  little circle!
+                  It’s easy to join using your gmail address — just fill out the
+                  request for access form, and we’ll dive in together. Give it a
+                  try, and let’s make something truly valuable for our little
+                  circle!
                 </p>
                 <p className="text-gray-700 mt-4 font-semibold">
                   Thank you for indulging me on this — your presence will make
