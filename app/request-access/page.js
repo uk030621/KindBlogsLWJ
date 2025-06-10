@@ -112,7 +112,7 @@ export default function RequestAccess() {
         <input
           type="text"
           name="name"
-          placeholder="Your full name"
+          placeholder="Enter Your Full Name"
           value={formData.name}
           onChange={handleChange}
           className="w-full p-2 border rounded"
@@ -121,7 +121,7 @@ export default function RequestAccess() {
         <input
           type="email"
           name="email"
-          placeholder="Your gmail address"
+          placeholder="Enter Your gmail Address"
           value={formData.email}
           onChange={handleChange}
           className="w-full p-2 border rounded"
@@ -129,7 +129,7 @@ export default function RequestAccess() {
         />
         <textarea
           name="justification"
-          placeholder="Why do you need access?"
+          placeholder="What inspires you to join our community?"
           value={formData.justification}
           onChange={handleChange}
           className="w-full p-2 border rounded"

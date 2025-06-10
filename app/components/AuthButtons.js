@@ -113,9 +113,10 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
                   first.
                 </p>
                 <p className="text-gray-600 mt-3">
-                  It’s easy to join—just fill out the request for access form,
-                  and we’ll dive in together. Give it a try, and let’s make
-                  something truly valuable for our little circle!
+                  It’s easy to join via using your gmail address — just fill out
+                  the request for access form, and we’ll dive in together. Give
+                  it a try, and let’s make something truly valuable for our
+                  little circle!
                 </p>
                 <p className="text-gray-700 mt-4 font-semibold">
                   Thank you for indulging me on this — your presence will make
@@ -193,10 +194,10 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
           <div className="mt-6">
             <button
               onClick={() => setShowExamples(!showExamples)}
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-[310px] "
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg shadow-md text-lg font-semibold hover:opacity-90 transition duration-300"
             >
-              {showExamples ? "Hide Advice" : "Friendly Advice"}
-              <div className="justify-center items-center flex">
+              {showExamples ? "Hide Advice" : "Friendly Advice 💫"}
+              {/*<div className="justify-center items-center flex">
                 <Image
                   src="/friendly advice.png"
                   alt="tips icon"
@@ -204,7 +205,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
                   height={40}
                   className="rounded-md ml-2"
                 />
-              </div>
+              </div>*/}
             </button>
 
             {showExamples && (
