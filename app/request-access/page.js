@@ -11,19 +11,24 @@ export default function RequestAccess() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Capitalize every word (first, middle, last names)
+    // Capitalize every word (with better handling for prefixes)
     const formattedValue =
       name === "name"
         ? value
             .toLowerCase()
             .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .map((word, index) => {
+              // Keep prefixes in lowercase if needed
+              const lowercasePrefixes = ["van", "de", "du", "von"];
+              return lowercasePrefixes.includes(word) && index !== 0
+                ? word
+                : word.charAt(0).toUpperCase() + word.slice(1);
+            })
             .join(" ")
         : value;
 
     setFormData({ ...formData, [name]: formattedValue });
   };
-
   const [requestCount, setRequestCount] = useState(0);
   const [showGuidelines, setShowGuidelines] = useState(false); // Toggle dropdown
 

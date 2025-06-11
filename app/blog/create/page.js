@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function CreateBlogPage() {
   const { data: session, status } = useSession();
@@ -152,9 +153,19 @@ export default function CreateBlogPage() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-2 mt-4">
-      <h1 className="text-2xl font-bold mb-4 text-slate-700 ml-4">
-        Submit a post...
-      </h1>
+      <div className="flex gap-4  items-center">
+        <h1 className="text-2xl font-bold mb-4 text-slate-700 ml-4">
+          Submit a post...
+        </h1>
+        <Image
+          src="/post.jpg" // ✅ Replace with your actual image path
+          alt="Tips & Tales - Share your wisdom and stories"
+          width={75} // ✅ Adjust width as needed
+          height={75} // ✅ Adjust height as needed
+          unoptimized // ✅ Disables Next.js optimization
+          className="rounded-full mb-4"
+        />
+      </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"

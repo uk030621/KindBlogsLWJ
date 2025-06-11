@@ -50,7 +50,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
           </h1>
           <p className="text-lg text-black mb-3">You&apos;re signed in.</p>
           <Image
-            src="/post.jpg"
+            src="/inclusivity.png"
             alt="Welcome illustration"
             className={`mx-auto mb-6 rounded-full transition-transform duration-700 ease-out ${
               animateImage ? "scale-100 opacity-100" : "scale-0 opacity-0"
@@ -90,9 +90,9 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
                 </h2>
                 <div className="w-full flex justify-center items-center py-6">
                   <Image
-                    src="/inclusivity.png" // ✅ Replace with your actual image path
+                    src="/connections.png" // ✅ Replace with your actual image path
                     alt="Tips & Tales - Share your wisdom and stories"
-                    width={250} // ✅ Adjust width as needed
+                    width={300} // ✅ Adjust width as needed
                     height={250} // ✅ Adjust height as needed
                     unoptimized // ✅ Disables Next.js optimization
                     className="rounded-lg shadow-2xl object-cover max-w-full h-auto "

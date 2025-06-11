@@ -109,6 +109,12 @@ export default function Navbar() {
                 >
                   Create
                 </Link>
+                <Link
+                  href="/alloweduserlist"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Members
+                </Link>
 
                 {role === "admin" && (
                   <Link
@@ -118,6 +124,7 @@ export default function Navbar() {
                     Requests
                   </Link>
                 )}
+
                 {role === "admin" && (
                   <Link
                     href="/admin"
@@ -227,7 +234,15 @@ export default function Navbar() {
               Create
             </Link>
           )}
-
+          {session?.user && (
+            <Link
+              href="/alloweduserlist"
+              onClick={() => setMenuOpen(false)}
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
+            >
+              Members
+            </Link>
+          )}
           {role === "admin" && (
             <Link
               href="/admin/submissions"

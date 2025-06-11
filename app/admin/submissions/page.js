@@ -13,7 +13,12 @@ export default function AdminSubmissions() {
     fetchSubmissions();
   }, []);
 
-  const handleStatusChange = async (id, newStatus, email) => {
+  const handleStatusChange = async (id, newStatus, email, submission) => {
+    const name = submission?.name ?? "Unknown User"; // ✅ Ensure name isn't undefined
+
+    console.log("Debugging - Submission Object:", submission); // ✅ See full submission object
+    console.log("Debugging - Extracted Name:", name); // ✅ Confirms actual name value
+
     try {
       // Update submission status
       const res = await fetch(`/api/submissions/${id}`, {
@@ -32,7 +37,10 @@ export default function AdminSubmissions() {
         const addUserRes = await fetch("/api/allowedUsers/addfromrequests", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({
+            email,
+            name,
+          }),
         });
 
         if (!addUserRes.ok) {
@@ -87,14 +95,17 @@ export default function AdminSubmissions() {
                 <td className="p-2 flex flex-col md:flex-row space-y-2 md:space-x-4 justify-center">
                   <button
                     onClick={() =>
-                      handleStatusChange(sub._id, "given", sub.email)
-                    }
+                      handleStatusChange(sub._id, "given", sub.email, sub)
+                    } // ✅ Ensure submission is passed
                     className="hover:bg-green-200 transition rounded-full text-lg"
                   >
                     👍
                   </button>
+
                   <button
-                    onClick={() => handleStatusChange(sub._id, "declined")}
+                    onClick={() =>
+                      handleStatusChange(sub._id, "declined", sub.email, sub)
+                    } // ✅ Pass submission for "declined" too
                     className="hover:bg-red-200 transition rounded-full text-lg"
                   >
                     👎🏾
