@@ -13,6 +13,32 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dateTime, setDateTime] = useState(null);
   const [loadingSignOut, setLoadingSignOut] = useState(false);
+  const [totalPosts, setTotalPosts] = useState(null);
+
+  useEffect(() => {
+    const fetchPostCounts = async () => {
+      try {
+        const res = await fetch("/api/user-post-counts");
+        if (res.ok) {
+          const data = await res.json();
+          const total = data.reduce((sum, user) => sum + user.count, 0);
+          setTotalPosts(total);
+        }
+      } catch (err) {
+        console.error("Failed to fetch post counts", err);
+      }
+    };
+
+    fetchPostCounts();
+
+    const handleNewPost = () => {
+      console.log("post:created event received in navbar");
+      fetchPostCounts();
+    };
+
+    window.addEventListener("post:created", handleNewPost);
+    return () => window.removeEventListener("post:created", handleNewPost);
+  }, []);
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -90,7 +116,7 @@ export default function Navbar() {
               <button className="text-gray-700 hover:text-blue-600">
                 Blog Post Menu ▼
               </button>
-              <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg w-[120px]">
+              <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg w-[170px]">
                 <Link
                   href="/"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -98,17 +124,37 @@ export default function Navbar() {
                   Home
                 </Link>
                 <Link
-                  href="/blog"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                >
-                  Posts
-                </Link>
-                <Link
                   href="/blog/create"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                 >
-                  Create
+                  Create a Post
                 </Link>
+                <Link
+                  href="/blog"
+                  className="px-4 py-2 text-gray-700 hover:bg-gray-100 flex justify-between items-center"
+                >
+                  View Posts
+                  {totalPosts !== null && (
+                    <span className="ml-2 text-sm text-white bg-blue-500 px-2 py-0.5 rounded-full">
+                      {totalPosts}
+                    </span>
+                  )}
+                </Link>
+
+                <Link
+                  href="/contact"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Contact Developer
+                </Link>
+                {role === "admin" && (
+                  <Link
+                    href="/admin/submissions"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 "
+                  >
+                    * Requests
+                  </Link>
+                )}
                 <Link
                   href="/alloweduserlist"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -118,19 +164,18 @@ export default function Navbar() {
 
                 {role === "admin" && (
                   <Link
-                    href="/admin/submissions"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 "
+                    href="/message-list"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
-                    Requests
+                    * Messages
                   </Link>
                 )}
-
                 {role === "admin" && (
                   <Link
                     href="/admin"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-semibold"
                   >
-                    Admin
+                    * Admin
                   </Link>
                 )}
               </div>
@@ -218,20 +263,43 @@ export default function Navbar() {
           )}
           {session?.user && (
             <Link
-              href="/blog"
-              onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
-            >
-              Posts
-            </Link>
-          )}
-          {session?.user && (
-            <Link
               href="/blog/create"
               onClick={() => setMenuOpen(false)}
               className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
             >
-              Create
+              Create a Post
+            </Link>
+          )}
+          {session?.user && (
+            <Link
+              href="/blog"
+              onClick={() => setMenuOpen(false)}
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full flex justify-center items-center"
+            >
+              View Posts
+              {totalPosts !== null && (
+                <span className="ml-2 text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full">
+                  {totalPosts}
+                </span>
+              )}
+            </Link>
+          )}
+          {session?.user && (
+            <Link
+              href="/contact"
+              onClick={() => setMenuOpen(false)}
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
+            >
+              Contact Developer
+            </Link>
+          )}
+          {role === "admin" && (
+            <Link
+              href="/admin/submissions"
+              onClick={() => setMenuOpen(false)}
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
+            >
+              * Requests
             </Link>
           )}
           {session?.user && (
@@ -243,13 +311,14 @@ export default function Navbar() {
               Members
             </Link>
           )}
+
           {role === "admin" && (
             <Link
-              href="/admin/submissions"
+              href="/message-list"
               onClick={() => setMenuOpen(false)}
               className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
             >
-              Requests
+              * Messages
             </Link>
           )}
           {role === "admin" && (
@@ -258,7 +327,7 @@ export default function Navbar() {
               onClick={() => setMenuOpen(false)}
               className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full font-semibold"
             >
-              Admin
+              * Admin
             </Link>
           )}
         </div>

@@ -126,7 +126,7 @@ export default function RequestAccess() {
         <input
           type="email"
           name="email"
-          placeholder="Enter Your gmail Address"
+          placeholder="Enter Your Gmail Address"
           value={formData.email}
           onChange={handleChange}
           className="w-full p-2 border rounded"

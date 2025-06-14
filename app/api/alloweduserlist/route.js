@@ -1,4 +1,4 @@
-// app/api/alIoweduserlist/route.js
+// app/api/alloweduserlist/route.js
 import clientPromise from "@/app/lib/mongodb";
 
 export async function GET() {

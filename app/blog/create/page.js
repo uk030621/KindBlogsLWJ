@@ -141,6 +141,12 @@ export default function CreateBlogPage() {
 
         router.refresh();
         router.replace("/blog"); // ✅ Use replace instead of push
+
+        // ✅ Dispatch custom event after routing (with short delay)
+        setTimeout(() => {
+          console.log("Dispatching post:created event");
+          window.dispatchEvent(new Event("post:created"));
+        }, 200);
       } else {
         alert("Failed to create blog");
       }
