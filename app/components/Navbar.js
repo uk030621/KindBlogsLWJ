@@ -14,6 +14,33 @@ export default function Navbar() {
   const [dateTime, setDateTime] = useState(null);
   const [loadingSignOut, setLoadingSignOut] = useState(false);
   const [totalPosts, setTotalPosts] = useState(null);
+  const [memberCount, setMemberCount] = useState(null);
+
+  useEffect(() => {
+    const fetchMemberCount = async () => {
+      try {
+        const res = await fetch("/api/membershipcount");
+        if (res.ok) {
+          const data = await res.json();
+          const total = data.reduce((sum, user) => sum + user.count, 0);
+          setMemberCount(total);
+        }
+      } catch (err) {
+        console.error("Failed to fetch member count", err);
+      }
+    };
+
+    fetchMemberCount();
+
+    const handleMemberChange = () => {
+      console.log("member:changed event received in navbar");
+      fetchMemberCount();
+    };
+
+    window.addEventListener("member:changed", handleMemberChange);
+    return () =>
+      window.removeEventListener("member:changed", handleMemberChange);
+  }, []);
 
   useEffect(() => {
     const fetchPostCounts = async () => {
@@ -157,9 +184,14 @@ export default function Navbar() {
                 )}
                 <Link
                   href="/alloweduserlist"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  className="px-4 py-2 text-gray-700 hover:bg-gray-100 flex justify-between items-center"
                 >
                   Members
+                  {memberCount !== null && (
+                    <span className="ml-2 text-sm text-white bg-green-500 px-2 py-0.5 rounded-full">
+                      {memberCount}
+                    </span>
+                  )}
                 </Link>
 
                 {role === "admin" && (
@@ -306,9 +338,14 @@ export default function Navbar() {
             <Link
               href="/alloweduserlist"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full flex justify-center items-center"
             >
               Members
+              {memberCount !== null && (
+                <span className="ml-2 text-xs text-white bg-green-500 px-2 py-0.5 rounded-full">
+                  {memberCount}
+                </span>
+              )}
             </Link>
           )}
 

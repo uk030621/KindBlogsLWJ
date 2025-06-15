@@ -6,10 +6,27 @@ export default function AllowedUserList() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("/api/alloweduserlist")
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error("Failed to fetch users", err));
+    const fetchUsers = () => {
+      fetch("/api/alloweduserlist")
+        .then((res) => res.json())
+        .then((data) => setUsers(data))
+        .catch((err) => console.error("Failed to fetch users", err));
+    };
+
+    // Initial fetch
+    fetchUsers();
+
+    // Listen for "member:changed" events
+    const handleMemberChanged = () => {
+      fetchUsers();
+    };
+
+    window.addEventListener("member:changed", handleMemberChanged);
+
+    // Cleanup on unmount
+    return () => {
+      window.removeEventListener("member:changed", handleMemberChanged);
+    };
   }, []);
 
   return (

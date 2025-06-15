@@ -47,6 +47,9 @@ export default function AdminSubmissions() {
           alert("Failed to add allowed user.");
           return;
         }
+
+        // ✅ Notify other components
+        window.dispatchEvent(new Event("member:changed"));
       }
 
       // Update local state

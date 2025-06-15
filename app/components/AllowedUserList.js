@@ -22,7 +22,11 @@ export default function AllowedUsersList({ initialAllowed }) {
     if (res.ok) {
       setAllowed((prev) => prev.filter((entry) => entry.email !== email));
       setMessage(`✅ Removed ${email}`);
-      router.refresh(); // 👈 This forces a refetch of all server components
+
+      // ✅ Notify other components like Navbar
+      window.dispatchEvent(new Event("member:changed"));
+
+      setTimeout(() => router.refresh(), 100); // smoother with event propagation
     } else {
       setMessage(`❌ ${result.error || "Failed to delete email"}`);
     }
