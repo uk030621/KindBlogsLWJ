@@ -168,7 +168,6 @@ export default function CreateBlogPage() {
           alt="Tips & Tales - Share your wisdom and stories"
           width={75} // ✅ Adjust width as needed
           height={75} // ✅ Adjust height as needed
-          style={{ width: "20%", height: "auto" }}
           unoptimized // ✅ Disables Next.js optimization
           className="rounded-full mb-4"
         />

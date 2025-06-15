@@ -87,8 +87,10 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
             {/* Dropdown Content */}
             {isOpen && (
               <div className="mt-4 p-6  shadow-lg rounded-lg border border-gray-200 bg-background">
-                <h2 className="text-xl font-bold text-gray-800">
-                  Join Me in Creating a “Nice Space”
+                <h2 className="text-lg font-bold text-gray-800">
+                  Join Me in Creating a
+                  <br />
+                  <span>“Nice Space” </span>
                   <br />
                   <span>for Kindness and Connection</span>
                 </h2>
@@ -107,6 +109,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
                     alt="Tips & Tales - Share your wisdom and stories"
                     width={300} // ✅ Adjust width as needed
                     height={250} // ✅ Adjust height as needed
+                    style={{ width: "auto", height: "auto" }}
                     unoptimized // ✅ Disables Next.js optimization
                     className="rounded-lg shadow-2xl object-cover max-w-full h-auto "
                   />
@@ -155,6 +158,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
               alt="Tips & Tales - Share your wisdom and stories"
               width={500} // ✅ Adjust width as needed
               height={400} // ✅ Adjust height as needed
+              style={{ width: "auto", height: "auto" }}
               unoptimized // ✅ Disables Next.js optimization
               className="rounded-lg shadow-2xl object-cover max-w-full h-auto "
             />
