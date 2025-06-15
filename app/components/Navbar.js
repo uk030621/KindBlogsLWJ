@@ -434,6 +434,7 @@ export default function Navbar() {
                   alt="Google logo"
                   width={30}
                   height={30}
+                  style={{ width: "auto", height: "auto" }}
                   className="rounded-md mr-2"
                 />
                 Sign In with Google

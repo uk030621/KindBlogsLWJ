@@ -31,7 +31,7 @@ export default function ContactForm() {
 
   return (
     <div className="max-w-2xl mx-auto p-4 ">
-      <h1 className="text-3xl font-bold mt-4 ">Contact Developer</h1>
+      <h1 className="text-3xl font-bold">Contact Developer</h1>
       <p className="mb-4">Please fill in the form below</p>
       {/*<h2 className="text-2xl font-bold mb-4">Contact Us</h2>*/}
       <form onSubmit={handleSubmit} className="space-y-4">

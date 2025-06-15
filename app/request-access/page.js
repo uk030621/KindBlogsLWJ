@@ -48,7 +48,9 @@ export default function RequestAccess() {
     });
 
     if (response.ok) {
-      alert("Request submitted successfully!");
+      alert(
+        "Request submitted successfully! You will be notified via your Gmail."
+      );
       setFormData({ name: "", email: "", justification: "" });
       setRequestCount((prev) => prev + 1); // Increment request counter
       setTimeout(() => setRequestCount(0), 60000); // Reset after 60 seconds

@@ -15,7 +15,7 @@ export async function POST(req) {
 
   try {
     const client = await connectToDB();
-    const db = client.db();
+    const db = client.db(process.env.MONGODB_DB);
     const collection = db.collection("contacts");
 
     await collection.insertOne({
@@ -41,7 +41,7 @@ export async function POST(req) {
 export async function GET() {
   try {
     const client = await connectToDB();
-    const db = client.db();
+    const db = client.db(process.env.MONGODB_DB);
     const messages = await db
       .collection("contacts")
       .find({})

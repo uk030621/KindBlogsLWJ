@@ -58,7 +58,9 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
             width={200}
             height={200}
             style={{ width: "100%", height: "auto" }}
+            priority
           />
+
           <p className="text-basic text-black mb-3">
             Tips & Tales from Your Group.
           </p>
@@ -86,8 +88,19 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
             {isOpen && (
               <div className="mt-4 p-6  shadow-lg rounded-lg border border-gray-200 bg-background">
                 <h2 className="text-xl font-bold text-gray-800">
-                  Join Me in Creating a “Nice Space” for Kindness and Connection
+                  Join Me in Creating a “Nice Space”
+                  <br />
+                  <span>for Kindness and Connection</span>
                 </h2>
+                {/* Call to Action Button */}
+                <div className="mt-6 text-center">
+                  <a
+                    href="/request-access"
+                    className="bg-blue-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-300"
+                  >
+                    Request Access 🚀
+                  </a>
+                </div>
                 <div className="w-full flex justify-center items-center py-6">
                   <Image
                     src="/connections.png" // ✅ Replace with your actual image path
@@ -164,6 +177,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
                 alt="Google logo"
                 width={50}
                 height={50}
+                style={{ width: "auto", height: "auto" }}
                 className="rounded-md mr-2"
               />
               Sign In with Google
@@ -172,6 +186,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
                 alt="tips icon"
                 width={50}
                 height={50}
+                style={{ width: "auto", height: "auto" }}
                 className="rounded-md ml-2"
               />
             </button>
