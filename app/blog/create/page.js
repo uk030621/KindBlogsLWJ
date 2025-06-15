@@ -20,12 +20,12 @@ export default function CreateBlogPage() {
 
   useEffect(() => {
     if (sendEmail) {
-      fetch("/api/allowed-users", {
+      fetch("/api/alloweduserlist", {
         method: "GET",
-        cache: "no-store", // ✅ Force fresh data (disable cache)
+        cache: "no-store",
       })
         .then((res) => res.json())
-        .then((data) => setAllowedUsers(data.emails || []))
+        .then((data) => setAllowedUsers(Array.isArray(data) ? data : []))
         .catch((err) => console.error("Error fetching users", err));
     }
   }, [sendEmail]);
@@ -61,25 +61,21 @@ export default function CreateBlogPage() {
 
         const cloudinaryRes = await fetch(
           `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
-          {
-            method: "POST",
-            body: formData,
-          }
+          { method: "POST", body: formData }
         );
 
         const debugText = await cloudinaryRes.text();
-
         if (!cloudinaryRes.ok) {
           throw new Error(`Cloudinary upload failed: ${debugText}`);
         }
 
         const cloudinaryData = JSON.parse(debugText);
         imageUrl = cloudinaryData.secure_url;
-        break; // ✅ Exit loop on success
+        break;
       } catch (err) {
         console.error(`Upload attempt ${attempts + 1} failed:`, err);
         attempts++;
-        await new Promise((res) => setTimeout(res, 1000)); // ✅ Wait before retrying
+        await new Promise((res) => setTimeout(res, 1000));
       }
     }
 
@@ -87,9 +83,7 @@ export default function CreateBlogPage() {
 
     if (!imageUrl) {
       alert("Image upload failed after multiple attempts.");
-      throw new Error(
-        "Failed to upload image. A second attempt usually works!"
-      );
+      throw new Error("Failed to upload image.");
     }
 
     return imageUrl;
@@ -98,14 +92,12 @@ export default function CreateBlogPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     let imageUrl = "";
 
     if (imageFile) {
       try {
         imageUrl = await uploadImageWithRetry();
       } catch (err) {
-        console.error("Final upload error:", err);
         setLoading(false);
         return;
       }
@@ -140,11 +132,9 @@ export default function CreateBlogPage() {
         }
 
         router.refresh();
-        router.replace("/blog"); // ✅ Use replace instead of push
+        router.replace("/blog");
 
-        // ✅ Dispatch custom event after routing (with short delay)
         setTimeout(() => {
-          console.log("Dispatching post:created event");
           window.dispatchEvent(new Event("post:created"));
         }, 200);
       } else {
@@ -159,19 +149,20 @@ export default function CreateBlogPage() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-2 mt-4">
-      <div className="flex gap-4  items-center">
+      <div className="flex gap-4 items-center">
         <h1 className="text-2xl font-bold mb-4 text-slate-700 ml-4">
           Submit a post...
         </h1>
         <Image
-          src="/post.jpg" // ✅ Replace with your actual image path
+          src="/post.jpg"
           alt="Tips & Tales - Share your wisdom and stories"
-          width={75} // ✅ Adjust width as needed
-          height={75} // ✅ Adjust height as needed
-          unoptimized // ✅ Disables Next.js optimization
+          width={75}
+          height={75}
+          unoptimized
           className="rounded-full mb-4"
         />
       </div>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -194,6 +185,7 @@ export default function CreateBlogPage() {
           onChange={(e) => setImageFile(e.target.files[0])}
           className="block"
         />
+
         {imageLoading && (
           <p className="text-sm text-gray-500 bg-green-200 w-fit px-2 py-2">
             Uploading image...
@@ -215,11 +207,10 @@ export default function CreateBlogPage() {
             <button
               type="button"
               onClick={() => {
-                if (selectedRecipients.length === allowedUsers.length) {
-                  setSelectedRecipients([]); // ✅ Deselect all
-                } else {
-                  setSelectedRecipients([...allowedUsers]); // ✅ Select all
-                }
+                const all = allowedUsers.map((u) => u.email);
+                setSelectedRecipients(
+                  selectedRecipients.length === all.length ? [] : all
+                );
               }}
               className="mb-2 px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300"
             >
@@ -227,28 +218,30 @@ export default function CreateBlogPage() {
                 ? "Deselect All"
                 : "Select All"}
             </button>
-            {allowedUsers.map((email) => (
-              <label key={email} className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  value={email}
-                  checked={selectedRecipients.includes(email)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRecipients([...selectedRecipients, email]);
-                    } else {
-                      setSelectedRecipients(
-                        selectedRecipients.filter(
-                          (recipient) => recipient !== email
-                        )
-                      );
-                    }
-                  }}
-                  className="h-4 w-4"
-                />
-                <span>{email}</span>
-              </label>
-            ))}
+
+            {allowedUsers.map(({ name, email }) => {
+              const isSelected = selectedRecipients.includes(email);
+              return (
+                <label key={email} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    value={email}
+                    checked={isSelected}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRecipients([...selectedRecipients, email]);
+                      } else {
+                        setSelectedRecipients(
+                          selectedRecipients.filter((r) => r !== email)
+                        );
+                      }
+                    }}
+                    className="h-4 w-4"
+                  />
+                  <span>{name}</span>
+                </label>
+              );
+            })}
           </div>
         )}
 

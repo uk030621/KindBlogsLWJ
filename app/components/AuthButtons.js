@@ -109,7 +109,6 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
                     alt="Tips & Tales - Share your wisdom and stories"
                     width={300} // ✅ Adjust width as needed
                     height={250} // ✅ Adjust height as needed
-                    style={{ width: "auto", height: "auto" }}
                     unoptimized // ✅ Disables Next.js optimization
                     className="rounded-lg shadow-2xl object-cover max-w-full h-auto "
                   />
@@ -158,7 +157,6 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
               alt="Tips & Tales - Share your wisdom and stories"
               width={500} // ✅ Adjust width as needed
               height={400} // ✅ Adjust height as needed
-              style={{ width: "auto", height: "auto" }}
               unoptimized // ✅ Disables Next.js optimization
               className="rounded-lg shadow-2xl object-cover max-w-full h-auto "
             />
