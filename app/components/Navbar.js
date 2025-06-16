@@ -221,7 +221,7 @@ export default function Navbar() {
               </button>
               <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg w-[160px]">
                 <a
-                  href="https://media-lw-jauth.vercel.app/"
+                  href="https://mediagoog-lwj.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -377,7 +377,7 @@ export default function Navbar() {
         <div className="grid grid-cols-2 gap-3 px-6 text-center ">
           {session?.user && (
             <a
-              href="https://media-lw-jauth.vercel.app/"
+              href="https://mediagoog-lwj.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-700 hover:text-blue-600 bg-pink-200 rounded-full "
