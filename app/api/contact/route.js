@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectToDB } from "@/app/lib/mongodb";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req) {
   const { fullname, email, message } = await req.json();
@@ -25,12 +28,28 @@ export async function POST(req) {
       date: new Date(),
     });
 
+    // ✅ Send email notification
+    await resend.emails.send({
+      from: `Contact Form <${process.env.CONTACT_FROM_EMAIL}>`, // must be verified in Resend
+      to: process.env.ADMIN_EMAILS, // replace with your real email address
+      subject: "📩 New Contact Form Message",
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${fullname}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message.replace(/\n/g, "<br>")}</p>
+        <hr />
+        <small>This message was sent via your contact form.</small>
+      `,
+    });
+
     return NextResponse.json({
       msg: ["Message sent successfully."],
       success: true,
     });
   } catch (err) {
-    console.error(err);
+    console.error("Contact form error:", err);
     return NextResponse.json({
       msg: ["Something went wrong."],
       success: false,
