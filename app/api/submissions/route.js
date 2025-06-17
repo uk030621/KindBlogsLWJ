@@ -82,3 +82,13 @@ export async function POST(req) {
     );
   }
 }
+
+export async function GET() {
+  const client = new MongoClient(process.env.MONGODB_URI);
+  await client.connect();
+  const db = client.db();
+  const submissions = db.collection("submissions");
+  const result = await submissions.find().toArray();
+  client.close();
+  return new Response(JSON.stringify(result), { status: 200 });
+}
