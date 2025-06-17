@@ -32,9 +32,9 @@ export async function POST(req) {
     await resend.emails.send({
       from: `Contact Form <${process.env.CONTACT_FROM_EMAIL}>`, // must be verified in Resend
       to: process.env.ADMIN_EMAILS, // replace with your real email address
-      subject: "📩 New Contact Form Message",
+      subject: "📩 New Message",
       html: `
-        <h2>New Contact Form Submission</h2>
+        <h2>Tips & Tales</h2>
         <p><strong>Name:</strong> ${fullname}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Message:</strong></p>

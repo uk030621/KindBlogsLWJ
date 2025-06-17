@@ -60,9 +60,9 @@ export async function POST(req) {
     await resend.emails.send({
       from: process.env.CONTACT_FROM_EMAIL,
       to: process.env.ADMIN_EMAILS,
-      subject: "📥 New Access Request Received",
+      subject: "📥 New Access Request",
       html: `
-        <h2>New Access Request</h2>
+        <h2>Tips & Tales</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Justification:</strong><br/>${justification}</p>

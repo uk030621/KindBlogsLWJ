@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function RequestAccess() {
   const [formData, setFormData] = useState({
@@ -148,6 +149,18 @@ export default function RequestAccess() {
         >
           Submit Request
         </button>
+        <p className="mt-2 text-base text-gray-600">
+          Don&apos;t have a Google account?{" "}
+          <Link
+            href="https://support.google.com/accounts/answer/27441?hl=en"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            <br />
+            <span>Create one here</span>
+          </Link>
+        </p>
       </form>
     </div>
   );

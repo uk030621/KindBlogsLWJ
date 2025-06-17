@@ -39,11 +39,11 @@ export default function ContactForm() {
           type="text"
           value={fullname}
           onChange={(e) => setFullname(e.target.value)}
-          placeholder="Full Name"
+          placeholder="Your Full Name"
           className="w-full p-2 border rounded"
         />
         <input
-          type="email"
+          type="Your Gmail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
