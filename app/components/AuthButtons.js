@@ -81,7 +81,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
               className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg shadow-md text-lg font-semibold hover:opacity-90 transition duration-300"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {isOpen ? "Hide Invitation" : "Join Our Space 💫"}
+              {isOpen ? "Hide Invitation ▲" : "▼ Join Our Space 💫"}
             </button>
 
             {/* Dropdown Content */}
@@ -213,7 +213,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
               onClick={() => setShowExamples(!showExamples)}
               className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg shadow-md text-lg font-semibold hover:opacity-90 transition duration-300"
             >
-              {showExamples ? "Hide Advice" : "Friendly Advice 💫"}
+              {showExamples ? "Hide Advice ▲" : "▼ Friendly Advice 💫"}
               {/*<div className="justify-center items-center flex">
                 <Image
                   src="/friendly advice.png"
