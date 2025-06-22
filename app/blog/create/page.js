@@ -131,11 +131,13 @@ export default function CreateBlogPage() {
           });
         }
 
-        router.refresh();
-        router.replace("/blog");
+        //router.refresh();
+        //router.replace("/blog");
 
         setTimeout(() => {
           window.dispatchEvent(new Event("post:created"));
+          router.refresh(); // refresh first
+          router.replace("/blog"); // then navigate
         }, 200);
       } else {
         alert("Failed to create blog");
