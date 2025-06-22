@@ -51,8 +51,10 @@ export default function SendPostPage() {
 
       if (res.ok) {
         alert("Post sent successfully.");
-        router.refresh(); // ✅ Removed `await`
-        router.replace("/blog"); // ✅ Use `replace` instead of `push`
+        setTimeout(() => {
+          router.refresh();
+          router.replace("/blog");
+        }, 200);
       } else {
         alert("Failed to send post.");
       }
