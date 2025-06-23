@@ -131,6 +131,7 @@ export default function CreateBlogPage() {
           });
         }
 
+        //(This is bad practice, see below it for correct mangagement of router.refresh & router.replace)
         //router.refresh();
         //router.replace("/blog");
 
