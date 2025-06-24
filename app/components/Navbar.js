@@ -162,7 +162,7 @@ export default function Navbar() {
                 >
                   View Posts
                   {totalPosts !== null && (
-                    <span className="ml-2 text-sm text-white bg-blue-500 px-2 py-0.5 rounded-full">
+                    <span className="ml-2 text-xs text-white bg-slate-500 px-2 py-0.5 rounded-full">
                       {totalPosts}
                     </span>
                   )}
@@ -188,7 +188,7 @@ export default function Navbar() {
                 >
                   Members
                   {memberCount !== null && (
-                    <span className="ml-2 text-sm text-white bg-green-500 px-2 py-0.5 rounded-full">
+                    <span className="ml-2 text-xs text-white bg-slate-500 px-2 py-0.5 rounded-full">
                       {memberCount}
                     </span>
                   )}
@@ -221,7 +221,7 @@ export default function Navbar() {
               </button>
               <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg w-[160px]">
                 <a
-                  href="https://mediagoog-lwj.vercel.app/"
+                  href="https://library.lwjformedia.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -310,7 +310,7 @@ export default function Navbar() {
             >
               View Posts
               {totalPosts !== null && (
-                <span className="ml-2 text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full">
+                <span className="ml-2 text-xs bg-slate-500 text-white px-2 py-0.5 rounded-full">
                   {totalPosts}
                 </span>
               )}
@@ -342,7 +342,7 @@ export default function Navbar() {
             >
               Members
               {memberCount !== null && (
-                <span className="ml-2 text-xs text-white bg-green-500 px-2 py-0.5 rounded-full">
+                <span className="ml-2 text-xs text-white bg-slate-500 px-2 py-0.5 rounded-full">
                   {memberCount}
                 </span>
               )}
@@ -377,7 +377,7 @@ export default function Navbar() {
         <div className="grid grid-cols-2 gap-3 px-6 text-center ">
           {session?.user && (
             <a
-              href="https://mediagoog-lwj.vercel.app/"
+              href="https://library.lwjformedia.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-700 hover:text-blue-600 bg-pink-200 rounded-full "
