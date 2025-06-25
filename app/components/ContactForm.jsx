@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react"; // ⬅️ Import session
+import { useRouter } from "next/navigation";
 
 export default function ContactForm() {
   const { data: session } = useSession(); // ⬅️ Grab session
+  const router = useRouter();
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -33,6 +35,9 @@ export default function ContactForm() {
 
     if (data.success) {
       setMessage(""); // only reset message so user can send more
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     }
   };
 
