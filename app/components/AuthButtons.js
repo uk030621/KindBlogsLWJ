@@ -87,13 +87,25 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
             {/* Dropdown Content */}
             {isOpen && (
               <div className="mt-4 p-6  shadow-lg rounded-lg border border-gray-200 bg-background">
-                <h2 className="text-lg font-bold text-gray-800">
-                  Join Me in Creating a
+                <h2 className="text-center leading-snug text-2xl font-semibold text-rose-800">
+                  Let’s build a <br />
+                  <span className="text-3xl font-bold text-rose-600">
+                    “Nice Space”
+                  </span>
                   <br />
-                  <span>“Nice Space” </span>
+                  <span className="text-xl text-rose-700">
+                    where kindness thrives,
+                  </span>
                   <br />
-                  <span>for Kindness and Connection</span>
+                  <span className="text-xl text-rose-700">
+                    connection grows,
+                  </span>
+                  <br />
+                  <span className="italic text-rose-500 text-lg">
+                    and everyone feels at home.
+                  </span>
                 </h2>
+
                 {/* Call to Action Button */}
                 <div className="mt-6 text-center">
                   <a
