@@ -81,7 +81,7 @@ export default function AuthButtons({ isAuthenticated, authorName }) {
               className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg shadow-md text-lg font-semibold hover:opacity-90 transition duration-300"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {isOpen ? "Hide Invitation ▲" : "▼ Join Our Space 💫"}
+              {isOpen ? "Hide Invitation ▲" : "▼ Join Our Benevolent Space 💫"}
             </button>
 
             {/* Dropdown Content */}
