@@ -221,14 +221,14 @@ export default function Navbar() {
               </button>
               <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg w-[160px]">
                 <a
-                  href="https://library.lwjformedia.com/"
+                  href="https://keeptube.lwjformedia.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                 >
                   Media Library
                 </a>
-                <a
+                {/*<a
                   href="https://stock-portfolio-manager-psi.vercel.app/login"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -243,7 +243,7 @@ export default function Navbar() {
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                 >
                   Handy Apps
-                </a>
+                </a>*/}
               </div>
             </div>
           )}
@@ -371,21 +371,21 @@ export default function Navbar() {
         <h1 className="mt-8 font-bold text-center">
           <span className={styles.subgradientText}>Other Applications</span>
         </h1>
-        <p className="text-sm text-slate-400 text-center mb-3">
+        {/*<p className="text-sm text-slate-400 text-center mb-3">
           (May require registration or sign-in)
-        </p>
-        <div className="grid grid-cols-2 gap-3 px-6 text-center ">
+        </p>*/}
+        <div className="grid grid-cols-1 gap-3 px-6 text-center ">
           {session?.user && (
             <a
-              href="https://library.lwjformedia.com/"
+              href="https://keeptube.lwjformedia.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-blue-600 bg-pink-200 rounded-full "
+              className="text-gray-700 hover:text-blue-600 bg-pink-200 rounded-full mt-3 "
             >
               Media Library
             </a>
           )}
-          {session?.user && (
+          {/*{session?.user && (
             <a
               href="https://stock-portfolio-manager-psi.vercel.app/login"
               target="_blank"
@@ -394,8 +394,8 @@ export default function Navbar() {
             >
               Stock Portfolio
             </a>
-          )}
-          {session?.user && (
+          )}*/}
+          {/*{session?.user && (
             <a
               href="https://utility-app-nu.vercel.app/login"
               target="_blank"
@@ -404,7 +404,7 @@ export default function Navbar() {
             >
               Handy Apps
             </a>
-          )}
+          )}*/}
           <div className="flex justify-center w-full col-span-2">
             {" "}
             {/* ✅ Prevents grid interference */}
