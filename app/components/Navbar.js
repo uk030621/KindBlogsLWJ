@@ -216,18 +216,18 @@ export default function Navbar() {
 
           {session?.user && (
             <div className="relative group">
-              <button className="text-gray-700 hover:text-blue-600">
+              {/*<button className="text-gray-700 hover:text-blue-600">
                 More Options ▼
-              </button>
+              </button>*/}
               <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg w-[160px]">
-                <a
+                {/*<a
                   href="https://keeptube.lwjformedia.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                 >
                   Media Library
-                </a>
+                </a>*/}
                 {/*<a
                   href="https://stock-portfolio-manager-psi.vercel.app/login"
                   target="_blank"
@@ -368,14 +368,14 @@ export default function Navbar() {
             </Link>
           )}
         </div>
-        <h1 className="mt-8 font-bold text-center">
+        {/*<h1 className="mt-8 font-bold text-center">
           <span className={styles.subgradientText}>Other Applications</span>
-        </h1>
+        </h1>*/}
         {/*<p className="text-sm text-slate-400 text-center mb-3">
           (May require registration or sign-in)
         </p>*/}
         <div className="grid grid-cols-1 gap-3 px-6 text-center ">
-          {session?.user && (
+          {/*{session?.user && (
             <a
               href="https://keeptube.lwjformedia.com/"
               target="_blank"
@@ -384,7 +384,7 @@ export default function Navbar() {
             >
               Media Library
             </a>
-          )}
+          )}*/}
           {/*{session?.user && (
             <a
               href="https://stock-portfolio-manager-psi.vercel.app/login"
@@ -411,7 +411,7 @@ export default function Navbar() {
             {session ? (
               <button
                 onClick={handleSignOut}
-                className="bg-red-500 text-white px-3 py-2 font-bold rounded hover:bg-red-600 mt-2"
+                className="bg-red-500 text-white px-4 py-2 font-bold rounded hover:bg-red-600 mt-6"
               >
                 {loadingSignOut ? (
                   <div className="flex flex-col items-center justify-center min-h-[50px] mt-1">
