@@ -288,7 +288,7 @@ export default function Navbar() {
             <Link
               href="/"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full py-2"
             >
               Home
             </Link>
@@ -297,7 +297,7 @@ export default function Navbar() {
             <Link
               href="/blog/create"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full py-2"
             >
               Create a Post
             </Link>
@@ -306,12 +306,12 @@ export default function Navbar() {
             <Link
               href="/blog"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full flex justify-center items-center"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full flex justify-center items-center py-2"
             >
               View Posts
               {totalPosts !== null && (
-                <span className="ml-2 text-xs bg-slate-500 text-white px-2 py-0.5 rounded-full">
-                  {totalPosts}
+                <span className="ml-2 text-sm bg-blue-200 text-black px-2 py-0.5 rounded-full">
+                  ({totalPosts})
                 </span>
               )}
             </Link>
@@ -320,7 +320,7 @@ export default function Navbar() {
             <Link
               href="/contact"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full py-2"
             >
               Contact Developer
             </Link>
@@ -329,7 +329,7 @@ export default function Navbar() {
             <Link
               href="/admin/submissions"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full py-2"
             >
               * Requests
             </Link>
@@ -342,8 +342,8 @@ export default function Navbar() {
             >
               Members
               {memberCount !== null && (
-                <span className="ml-2 text-xs text-white bg-slate-500 px-2 py-0.5 rounded-full">
-                  {memberCount}
+                <span className="ml-2 text-sm text-black bg-blue-200 px-2 py-0.5 rounded-full">
+                  ({memberCount})
                 </span>
               )}
             </Link>
@@ -353,7 +353,7 @@ export default function Navbar() {
             <Link
               href="/message-list"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full py-2"
             >
               * Messages
             </Link>
@@ -362,7 +362,7 @@ export default function Navbar() {
             <Link
               href="/admin"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full font-semibold"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full font-semibold py-2"
             >
               * Admin
             </Link>
@@ -380,7 +380,7 @@ export default function Navbar() {
               href="https://keeptube.lwjformedia.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-blue-600 bg-pink-200 rounded-full mt-3 "
+              className="text-gray-700 hover:text-blue-600 bg-pink-200 rounded-full mt-3 py-2 "
             >
               Media Library
             </a>
@@ -411,7 +411,7 @@ export default function Navbar() {
             {session ? (
               <button
                 onClick={handleSignOut}
-                className="bg-red-500 text-white px-3 py-2 font-bold rounded hover:bg-red-600 mt-6"
+                className="bg-red-500 text-white px-3 py-2 font-bold rounded hover:bg-red-600 mt-2"
               >
                 {loadingSignOut ? (
                   <div className="flex flex-col items-center justify-center min-h-[50px] mt-1">
