@@ -310,7 +310,7 @@ export default function Navbar() {
             >
               View Posts
               {totalPosts !== null && (
-                <span className="ml-2 text-sm bg-blue-200 text-black px-2 py-0.5 rounded-full">
+                <span className="ml-2 text-sm bg-blue-200 text-black px-2 py-0.5 rounded-full ">
                   ({totalPosts})
                 </span>
               )}
@@ -338,7 +338,7 @@ export default function Navbar() {
             <Link
               href="/alloweduserlist"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full flex justify-center items-center"
+              className="text-gray-700 hover:text-blue-600 bg-blue-200 rounded-full flex justify-center items-center py-2"
             >
               Members
               {memberCount !== null && (
