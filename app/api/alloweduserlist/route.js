@@ -1,6 +1,8 @@
 // app/api/alloweduserlist/route.js
 import clientPromise from "@/app/lib/mongodb";
 
+export const dynamic = "force-dynamic"; // Ensures no cache
+
 export async function GET() {
   try {
     const client = await clientPromise;
