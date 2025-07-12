@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export default function AllowedUsersList({ initialAllowed }) {
   const [allowed, setAllowed] = useState(initialAllowed);
@@ -33,6 +35,23 @@ export default function AllowedUsersList({ initialAllowed }) {
 
     setTimeout(() => setMessage(""), 3000);
   };
+
+  // ✅ Re-fetch when another component triggers a change
+  useEffect(() => {
+    const refreshList = async () => {
+      try {
+        const res = await fetch("/api/alloweduserlist");
+        if (!res.ok) throw new Error("Failed to fetch updated list");
+        const data = await res.json();
+        setAllowed(data);
+      } catch (err) {
+        console.error("Error refreshing allowed users:", err);
+      }
+    };
+
+    window.addEventListener("member:changed", refreshList);
+    return () => window.removeEventListener("member:changed", refreshList);
+  }, []);
 
   return (
     <>
