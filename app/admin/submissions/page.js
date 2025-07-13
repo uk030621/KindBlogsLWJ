@@ -3,24 +3,32 @@ import { useState, useEffect } from "react";
 
 export default function AdminSubmissions() {
   const [submissions, setSubmissions] = useState([]);
+  const [allowedEmails, setAllowedEmails] = useState([]);
 
+  // Fetch submissions and allowedUsers on mount
   useEffect(() => {
-    const fetchSubmissions = async () => {
-      const res = await fetch("/api/submissions");
-      const data = await res.json();
-      setSubmissions(data);
+    const fetchData = async () => {
+      const [subsRes, allowedRes] = await Promise.all([
+        fetch("/api/submissions"),
+        fetch("/api/alloweduserlist"),
+      ]);
+
+      const [subsData, allowedData] = await Promise.all([
+        subsRes.json(),
+        allowedRes.json(),
+      ]);
+
+      setSubmissions(subsData);
+      setAllowedEmails(allowedData.map((user) => user.email));
     };
-    fetchSubmissions();
+
+    fetchData();
   }, []);
 
   const handleStatusChange = async (id, newStatus, email, submission) => {
-    const name = submission?.name ?? "Unknown User"; // ✅ Ensure name isn't undefined
-
-    console.log("Debugging - Submission Object:", submission); // ✅ See full submission object
-    console.log("Debugging - Extracted Name:", name); // ✅ Confirms actual name value
+    const name = submission?.name ?? "Unknown User";
 
     try {
-      // Update submission status
       const res = await fetch(`/api/submissions/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -32,15 +40,11 @@ export default function AdminSubmissions() {
         return;
       }
 
-      // If status is "given", add user to allowedUsers
       if (newStatus === "given") {
         const addUserRes = await fetch("/api/allowedUsers/addfromrequests", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email,
-            name,
-          }),
+          body: JSON.stringify({ email, name }),
         });
 
         if (!addUserRes.ok) {
@@ -48,18 +52,36 @@ export default function AdminSubmissions() {
           return;
         }
 
-        // ✅ Notify other components
         window.dispatchEvent(new Event("member:changed"));
+
+        // update local allowedEmails
+        setAllowedEmails((prev) => [...prev, email]);
       }
 
-      // Update local state
-      setSubmissions(
-        submissions.map((sub) =>
+      setSubmissions((prev) =>
+        prev.map((sub) =>
           sub._id === id ? { ...sub, status: newStatus } : sub
         )
       );
     } catch (error) {
       console.error("Error updating submission:", error);
+    }
+  };
+
+  const handleDeleteAllowed = async (email) => {
+    const res = await fetch("/api/allowedUsers/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      alert(`✅ Removed ${email} from allowed users`);
+      setAllowedEmails((prev) => prev.filter((e) => e !== email));
+      window.dispatchEvent(new Event("member:changed"));
+    } else {
+      const { error } = await res.json();
+      alert(`❌ ${error || "Failed to remove allowed user"}`);
     }
   };
 
@@ -99,20 +121,28 @@ export default function AdminSubmissions() {
                   <button
                     onClick={() =>
                       handleStatusChange(sub._id, "given", sub.email, sub)
-                    } // ✅ Ensure submission is passed
+                    }
                     className="hover:bg-green-200 transition rounded-full text-lg"
                   >
                     👍
                   </button>
-
                   <button
                     onClick={() =>
                       handleStatusChange(sub._id, "declined", sub.email, sub)
-                    } // ✅ Pass submission for "declined" too
+                    }
                     className="hover:bg-red-200 transition rounded-full text-lg"
                   >
                     👎🏾
                   </button>
+
+                  {allowedEmails.includes(sub.email) && (
+                    <button
+                      onClick={() => handleDeleteAllowed(sub.email)}
+                      className="text-xs text-red-500 hover:underline mt-1"
+                    >
+                      ❌ Remove from allowed
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
