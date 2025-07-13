@@ -4,22 +4,26 @@ import { useState, useEffect } from "react";
 export default function AdminSubmissions() {
   const [submissions, setSubmissions] = useState([]);
   const [allowedEmails, setAllowedEmails] = useState([]);
+  const [adminEmails, setAdminEmails] = useState([]);
 
   // Fetch submissions and allowedUsers on mount
   useEffect(() => {
     const fetchData = async () => {
-      const [subsRes, allowedRes] = await Promise.all([
+      const [subsRes, allowedRes, adminsRes] = await Promise.all([
         fetch("/api/submissions"),
         fetch("/api/alloweduserlist"),
+        fetch("/api/admins/list"),
       ]);
 
-      const [subsData, allowedData] = await Promise.all([
+      const [subsData, allowedData, adminData] = await Promise.all([
         subsRes.json(),
         allowedRes.json(),
+        adminsRes.json(),
       ]);
 
       setSubmissions(subsData);
-      setAllowedEmails(allowedData.map((user) => user.email));
+      setAllowedEmails(allowedData.map((u) => u.email));
+      setAdminEmails(adminData); // ✅ Now safe and private
     };
 
     fetchData();
@@ -135,14 +139,15 @@ export default function AdminSubmissions() {
                     👎🏾
                   </button>
 
-                  {allowedEmails.includes(sub.email) && (
-                    <button
-                      onClick={() => handleDeleteAllowed(sub.email)}
-                      className="text-xs text-red-500 hover:underline mt-1"
-                    >
-                      ❌ Remove from allowed
-                    </button>
-                  )}
+                  {allowedEmails.includes(sub.email) &&
+                    !adminEmails.includes(sub.email) && (
+                      <button
+                        onClick={() => handleDeleteAllowed(sub.email)}
+                        className="text-xs text-red-500 hover:underline mt-1"
+                      >
+                        ❌ Remove from allowed
+                      </button>
+                    )}
                 </td>
               </tr>
             ))}
