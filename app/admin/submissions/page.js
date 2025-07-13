@@ -72,7 +72,7 @@ export default function AdminSubmissions() {
     }
   };
 
-  const handleDeleteAllowed = async (email) => {
+  const handleDeleteAllowed = async (email, submissionId) => {
     const res = await fetch("/api/allowedUsers/delete", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -81,8 +81,24 @@ export default function AdminSubmissions() {
 
     if (res.ok) {
       alert(`✅ Removed ${email} from allowed users`);
+
+      // Remove from local allowedEmails
       setAllowedEmails((prev) => prev.filter((e) => e !== email));
       window.dispatchEvent(new Event("member:changed"));
+
+      // 🔁 Patch the submission status to "declined"
+      await fetch(`/api/submissions/${submissionId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "declined" }),
+      });
+
+      // Update local submissions state
+      setSubmissions((prev) =>
+        prev.map((sub) =>
+          sub._id === submissionId ? { ...sub, status: "declined" } : sub
+        )
+      );
     } else {
       const { error } = await res.json();
       alert(`❌ ${error || "Failed to remove allowed user"}`);
@@ -142,7 +158,7 @@ export default function AdminSubmissions() {
                   {allowedEmails.includes(sub.email) &&
                     !adminEmails.includes(sub.email) && (
                       <button
-                        onClick={() => handleDeleteAllowed(sub.email)}
+                        onClick={() => handleDeleteAllowed(sub.email, sub._id)}
                         className="text-xs text-red-500 hover:underline mt-1"
                       >
                         ❌ Remove from allowed
