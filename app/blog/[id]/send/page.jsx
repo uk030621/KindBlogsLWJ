@@ -1,3 +1,4 @@
+//app/blog/[id]/send
 "use client";
 
 import { useEffect, useState } from "react";
@@ -16,14 +17,16 @@ export default function SendPostPage() {
 
   useEffect(() => {
     if (status === "authenticated") {
+      // Fetch the post by ID
       fetch(`/api/blogs/${id}`)
         .then((res) => res.json())
         .then(setPost)
         .catch((err) => console.error("Failed to load post", err));
 
-      fetch("/api/allowed-users")
+      // Fetch full user objects from the working endpoint
+      fetch("/api/alloweduserlist")
         .then((res) => res.json())
-        .then((data) => setAllowedUsers(data.emails || []))
+        .then((data) => setAllowedUsers(data)) // data = [{ name, email }]
         .catch((err) => console.error("Failed to load users", err));
     }
   }, [id, status]);
@@ -45,6 +48,8 @@ export default function SendPostPage() {
           content: post.content,
           imageUrl: post.imageUrl || "",
           recipients: selectedRecipients,
+          senderName: session.user.name,
+          senderEmail: session.user.email,
           postId: id,
         }),
       });
@@ -103,7 +108,7 @@ export default function SendPostPage() {
             ? "Deselect All"
             : "Select All"}
         </button>
-        {allowedUsers.map((email) => (
+        {allowedUsers.map(({ name, email }) => (
           <label key={email} className="flex items-center gap-2 mb-1">
             <input
               type="checkbox"
@@ -116,7 +121,7 @@ export default function SendPostPage() {
                 )
               }
             />
-            {email}
+            {name}
           </label>
         ))}
       </div>

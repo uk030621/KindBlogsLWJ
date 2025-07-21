@@ -1,5 +1,5 @@
+//app/blog/create/page.js
 "use client";
-
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -127,6 +127,8 @@ export default function CreateBlogPage() {
               content,
               imageUrl,
               recipients: selectedRecipients,
+              senderName: session.user.name,
+              senderEmail: session.user.email,
             }),
           });
         }
