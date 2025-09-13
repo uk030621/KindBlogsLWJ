@@ -95,13 +95,12 @@ export default function SendPostPage() {
         <h2 className="font-semibold mb-2">Select Recipients:</h2>
         <button
           type="button"
-          onClick={() =>
+          onClick={() => {
+            const all = allowedUsers.map((u) => u.email);
             setSelectedRecipients(
-              selectedRecipients.length === allowedUsers.length
-                ? []
-                : [...allowedUsers]
-            )
-          }
+              selectedRecipients.length === all.length ? [] : all
+            );
+          }}
           className="mb-3 px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300"
         >
           {selectedRecipients.length === allowedUsers.length
